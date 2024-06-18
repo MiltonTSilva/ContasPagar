@@ -3,12 +3,12 @@
 
 Um software de contas a pagar pessoal é uma ferramenta projetada para ajudar indivíduos a gerenciar suas obrigações financeiras. Aqui está um descritivo básico:
 
-#Propósito:
+# Propósito:
 
 Ajudar usuários a acompanhar faturas e pagamentos pendentes.
 Organizar despesas por categorias, como contas domésticas, empréstimos e serviços.
 
-#Características Principais:
+# Características Principais:
 
 Registro de Contas: Permite inserir detalhes de contas, como credor, valor, data de vencimento e descrição.
 
