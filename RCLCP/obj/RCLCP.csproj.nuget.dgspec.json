@@ -1,0 +1,107 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Projetos\\ContasPagar\\RCLCP\\RCLCP.csproj": {}
+  },
+  "projects": {
+    "C:\\Projetos\\ContasPagar\\RCLCP\\RCLCP.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Projetos\\ContasPagar\\RCLCP\\RCLCP.csproj",
+        "projectName": "RCLCP",
+        "projectPath": "C:\\Projetos\\ContasPagar\\RCLCP\\RCLCP.csproj",
+        "packagesPath": "C:\\Users\\MTS\\.nuget\\packages\\",
+        "outputPath": "C:\\Projetos\\ContasPagar\\RCLCP\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\MTS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Components.Web": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.Maui.Essentials": {
+              "target": "Package",
+              "version": "[8.0.60, )"
+            },
+            "MudBlazor": {
+              "target": "Package",
+              "version": "[6.20.0, )"
+            },
+            "SQLitePCLRaw.bundle_green": {
+              "target": "Package",
+              "version": "[2.1.8, )"
+            },
+            "SQLitePCLRaw.core": {
+              "target": "Package",
+              "version": "[2.1.8, )"
+            },
+            "SQLitePCLRaw.provider.dynamic_cdecl": {
+              "target": "Package",
+              "version": "[2.1.8, )"
+            },
+            "SQLitePCLRaw.provider.sqlite3": {
+              "target": "Package",
+              "version": "[2.1.8, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.172, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

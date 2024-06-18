@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+	
+  <ItemGroup>
+	  
+	  <!--
+	  
+		Ao usar o SQLite em uma aplicação .NET MAUI, você precisa incluir este cinco  pacotes no seu projeto. 
+		Cada pacote desempenha um papel específico no acesso e funcionamento do SQLite no .NET.
+
+		sqlite-net-pcl: É uma biblioteca simples e leve que fornece uma API fácil de usar para trabalhar com o SQLite no .NET. 
+		Ela oferece recursos para criar, consultar, atualizar e excluir registros em um banco de dados SQLite. 
+		É um pacote popularmente usado com o SQLite no ecossistema do .NET.
+	
+		SQLitePCLRaw.bundle_green: Esse pacote contém implementações de baixo nível para o SQLite, que são compartilhadas entre diferentes
+		plataformas. Ele fornece suporte básico para o SQLite e é usado em conjunto com os pacotes SQLitePCLRaw.core e 
+		SQLitePCLRaw.provider.sqlite3 para obter acesso ao SQLite em diferentes plataformas.
+	
+		SQLitePCLRaw.core: Esse pacote contém a implementação principal do SQLitePCLRaw, que é uma camada de abstração de plataforma para 
+		o SQLite. Ele define interfaces e classes básicas para trabalhar com o SQLite e é usado para interagir com a implementação 
+		específica da plataforma fornecida pelo pacote SQLitePCLRaw.provider.sqlite3.
+	
+		SQLitePCLRaw.provider.dynamic_cdecl: Esse pacote contém uma implementação do provedor SQLitePCLRaw que usa a convenção de chamada
+		"cdecl" para interagir com a biblioteca SQLite subjacente. É usado como um provedor para o SQLitePCLRaw e permite a interoperabilidade 
+		com a biblioteca SQLite nativa.
+	
+		SQLitePCLRaw.provider.sqlite3: Esse pacote contém a implementação específica da plataforma do provedor SQLitePCLRaw 
+		para a biblioteca SQLite nativa. Ele fornece acesso à biblioteca SQLite subjacente e lida com as operações de baixo nível necessárias 
+		para interagir com o SQLite em cada plataforma suportada.
+	
+		Esses pacotes são necessários para permitir o acesso ao SQLite em uma aplicação .NET MAUI, fornecendo as funcionalidades 
+		e as abstrações necessárias para trabalhar com o banco de dados SQLite em diferentes plataformas suportadas.
+	-->
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
+		<PackageReference Include="SQLitePCLRaw.core" Version="2.1.8" />
+		<PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.8" />
+		<PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.8" />
+	  
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.60" />
+		<PackageReference Include="MudBlazor" Version="6.20.0" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entitys\" />
+    <Folder Include="Pages\" />
+  </ItemGroup>
+
+</Project>

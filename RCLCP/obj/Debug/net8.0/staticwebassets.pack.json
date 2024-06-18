@@ -1,0 +1,53 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Projetos\\ContasPagar\\RCLCP\\wwwroot\\images\\add.png",
+      "PackagePath": "staticwebassets\\images\\add.png"
+    },
+    {
+      "Id": "C:\\Projetos\\ContasPagar\\RCLCP\\wwwroot\\images\\appiconfg.svg",
+      "PackagePath": "staticwebassets\\images\\appiconfg.svg"
+    },
+    {
+      "Id": "C:\\Projetos\\ContasPagar\\RCLCP\\wwwroot\\images\\circle.png",
+      "PackagePath": "staticwebassets\\images\\circle.png"
+    },
+    {
+      "Id": "C:\\Projetos\\ContasPagar\\RCLCP\\wwwroot\\images\\delete.png",
+      "PackagePath": "staticwebassets\\images\\delete.png"
+    },
+    {
+      "Id": "C:\\Projetos\\ContasPagar\\RCLCP\\wwwroot\\images\\details.png",
+      "PackagePath": "staticwebassets\\images\\details.png"
+    },
+    {
+      "Id": "C:\\Projetos\\ContasPagar\\RCLCP\\wwwroot\\images\\edit.png",
+      "PackagePath": "staticwebassets\\images\\edit.png"
+    },
+    {
+      "Id": "C:\\Projetos\\ContasPagar\\RCLCP\\wwwroot\\images\\new.png",
+      "PackagePath": "staticwebassets\\images\\new.png"
+    },
+    {
+      "Id": "C:\\Projetos\\ContasPagar\\RCLCP\\wwwroot\\images\\splash.svg",
+      "PackagePath": "staticwebassets\\images\\splash.svg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.RCLCP.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.RCLCP.props",
+      "PackagePath": "build\\RCLCP.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.RCLCP.props",
+      "PackagePath": "buildMultiTargeting\\RCLCP.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.RCLCP.props",
+      "PackagePath": "buildTransitive\\RCLCP.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

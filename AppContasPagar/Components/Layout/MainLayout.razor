@@ -1,0 +1,65 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider IsDarkMode="@isDarkMode" @ref="@mudThemeProvider" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="0">
+        <MudToggleIconButton @bind-Toggled="@isNavOpen"
+                             Edge="Edge.Start"
+                             Icon="@Icons.Material.Filled.Menu"
+                             Color="Color.Surface"
+                             Title="Mostrar Menu"
+                             ToggledIcon="@Icons.Material.Filled.MenuOpen"
+                             ToggledTitle="Esconder Menu"
+                             ToggledColor="Color.Surface" />
+        <MudSpacer />
+
+        <MudToggleIconButton @bind-Toggled="@isDarkMode"
+                             Icon="@Icons.Material.Filled.DarkMode"
+                             Color="Color.Surface"
+                             Title="Modo Escuro"
+                             ToggledIcon="@Icons.Material.Filled.LightMode"
+                             ToggledTitle="Modo Claro"
+                             ToggledColor="Color.Surface" />
+
+    </MudAppBar>
+
+    
+    <MudDrawer @bind-Open="isNavOpen" Elevation="1">
+       
+        <MudDrawerHeader Class="d-flex justify-center">
+            
+@*                  <MudAvatar Color="Color.Secondary" Variant="Variant.Outlined" Size="Size.Large">
+                    CP
+                </MudAvatar>  *@
+            <span class="loader "></span>
+          
+        </MudDrawerHeader>
+        <NavMenu />
+    </MudDrawer>
+
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="my-4 pt-4">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool isNavOpen = true;
+    private bool isDarkMode = true;
+
+    private MudThemeProvider? mudThemeProvider;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            isNavOpen = true;
+            isDarkMode = await mudThemeProvider!.GetSystemPreference();
+            StateHasChanged();
+        }
+    }
+} 

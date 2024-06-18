@@ -1,0 +1,9 @@
+﻿
+<p>Plataforma: @platform</p>
+
+@code {
+    private string? platform;
+
+    protected override void OnInitialized() => platform = PlatformService.GetPlatform();
+
+}
