@@ -8,16 +8,14 @@ namespace RCLCP.Services
 {
     public class ContaBancariaService : IContaBancaria
     {
-        private SQLiteAsyncConnection? _dbConnection;
+        private readonly SQLiteAsyncConnection? _dbConnection;
         private readonly IBancoDados bancoDadosService;
 
         public ContaBancariaService(IBancoDados bancoDadosService)
         {
             
             this.bancoDadosService = bancoDadosService;
-            _dbConnection = this.bancoDadosService.ConnectionDB<ContaBancaria>()?.Result;
-
-            //_dbConnection = BancoDadosService.ConnectionDB<ContaBancaria>()?.Result;
+            _dbConnection = this.bancoDadosService.ConnectionDB<ContaBancaria>();
 
         }
 

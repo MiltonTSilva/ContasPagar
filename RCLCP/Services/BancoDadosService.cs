@@ -6,12 +6,11 @@ namespace RCLCP.Services
     public class BancoDadosService : IBancoDados
     {
 
-        private SQLiteAsyncConnection? _dbConnection;
+        private readonly string dbPathLocal = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Agenda.db3");
 
-        private string dbPathLocal = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Agenda.db3");
+        private SQLiteAsyncConnection? _dbConnection ;
 
-
-        public async Task<SQLiteAsyncConnection> ConnectionDB<T>() where T : class, new()
+        public SQLiteAsyncConnection ConnectionDB<T>() where T : class, new()
         {
             try
             {
@@ -20,12 +19,11 @@ namespace RCLCP.Services
                 {
                     _dbConnection = new SQLiteAsyncConnection(dbPathLocal,
                     SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache);
-
+                    _dbConnection.ExecuteAsync("PRAGMA foreign_keys = ON;").Wait();
                 }
 
                 if (_dbConnection != null)
-                {
-                    _dbConnection.ExecuteAsync("PRAGMA foreign_keys = ON;").Wait();
+                {                   
                     _dbConnection.CreateTableAsync<T>().Wait();
                 }
 
@@ -35,8 +33,13 @@ namespace RCLCP.Services
                 Console.WriteLine(ex);
             }
 
+            if (_dbConnection == null)
+            {
+                return new SQLiteAsyncConnection("");
+            }
 
             return _dbConnection;
+
         }
     }
 }

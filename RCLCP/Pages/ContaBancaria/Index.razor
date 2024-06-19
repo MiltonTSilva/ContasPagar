@@ -61,9 +61,9 @@
     </Columns>
 
     <PagerContent>
-        @* <MudText>Registros por página</MudText> *@
-        <MudPagination ShowFirstButton="true" ShowLastButton="true" ShowNextButton="false" ShowPreviousButton="false" SelectedChanged="PageChanged" Count="@((_grid.GetFilteredItemsCount() + _grid.RowsPerPage - 1) / _grid.RowsPerPage)" Class="pa-4" />
-        @* <MudDataGridPager T="ContaBancaria" Style="color: red;font-size: 8px" RowsPerPageString="RP" DisableRowsPerPage="false" /> *@
+        <MudPagination ShowFirstButton="true" ShowLastButton="true" ShowNextButton="false" 
+            ShowPreviousButton="false"  SelectedChanged="PageChanged"  Class="pa-4"
+            Count="@((_grid!.GetFilteredItemsCount() + _grid.RowsPerPage - 1) / _grid.RowsPerPage)" />
     </PagerContent>
 
 </MudDataGrid>
@@ -154,7 +154,7 @@
     // events
     void RowClicked(DataGridRowClickEventArgs<ContaBancaria> args)
     {
-        _events.Insert(0, $"Event = RowClick, Index = {args.RowIndex}, Data = {JsonSerializer.Serialize(args.Item)}");
+        _events.Insert(0, $"Event = RowClick, Index = {args.RowIndex}, Data = {JsonSerializer.Serialize(args?.Item)}");
     }
 
     void RowRightClicked(DataGridRowClickEventArgs<ContaBancaria> args)
