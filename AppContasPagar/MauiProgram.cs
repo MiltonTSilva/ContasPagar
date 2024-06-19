@@ -24,10 +24,12 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-        builder.Services.AddMudServices();
+		builder.Services.AddMudServices();
 
-        builder.Services.AddSingleton<IPlatformService, PlatformService>();
+		builder.Services.AddSingleton<IPlatformService, PlatformService>();
+		builder.Services.AddSingleton<IBancoDados, BancoDadosService>();
+		builder.Services.AddSingleton<IContaBancaria, ContaBancariaService>();
 
-        return builder.Build();
+		return builder.Build();
 	}
 }

@@ -1,0 +1,67 @@
+﻿@page "/contasbancarias/create"
+
+<PageTitle>Nova Conta Bancaria</PageTitle>
+
+<h1>Nova Conta Bancaria</h1>
+
+<hr />
+
+<EditForm Model="contaBancaria" OnValidSubmit="AddContaBancaria">
+    <DataAnnotationsValidator />
+    @* <ValidationSummary /> *@
+    <MudCard>
+        <MudCardContent>
+            <MudTextField @bind-Value="contaBancaria.Nome" Label="Nome" Immediate="true" Required="true"  />
+            <ValidationMessage For="() => contaBancaria.Nome" RequiredError="O nome é obrigatório." />
+
+            <MudRadioGroup @bind-Value="contaBancaria.Ativo">
+                <MudRadio Value="true" Color="Color.Primary" Dense="true">Sim</MudRadio>
+                <MudRadio Value="false" Color="Color.Secondary" Dense="false">Não</MudRadio>
+            </MudRadioGroup>
+
+            <ValidationMessage For="() => contaBancaria.Ativo" RequiredError="campo obrigatório." />   
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" >Salvar</MudButton>
+            <MudButton  ButtonType="ButtonType.Button" OnClick="NavigateToIndexContaBancaria" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+        </MudCardActions>
+    </MudCard>
+</EditForm>
+
+@code {
+
+    private ContaBancaria contaBancaria = new ContaBancaria();
+   
+
+
+    // protected override async Task OnInitializedAsync()
+    // {
+
+    // }
+
+    
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddContaBancaria()
+    {
+
+        var contexto = new ValidationContext(contaBancaria, null, null);
+        var resultados = new List<ValidationResult>();
+
+        bool isValid = Validator.TryValidateObject(contaBancaria, contexto, resultados, true);
+
+
+        if (isValid)
+        {
+            await contaBancariaRepositorio.AddContaBancariaAsync(contaBancaria);          
+        }
+
+        NavigationManager.NavigateTo("/contasbancarias");
+   
+    }
+
+    public void  NavigateToIndexContaBancaria()
+    {
+        NavigationManager.NavigateTo("/contasbancarias");
+    }
+
+}

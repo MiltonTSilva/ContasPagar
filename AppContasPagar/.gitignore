@@ -31,6 +31,7 @@ bld/
 
 # Visual Studo 2015 cache/options directory
 .vs/
+.vs/FileContentIndex/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -159,6 +160,7 @@ ClientBin/
 node_modules/
 bower_components/
 blazor-samples/
+
 
 # RIA/Silverlight projects
 Generated_Code/

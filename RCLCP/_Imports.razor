@@ -1,18 +1,22 @@
-﻿@using Microsoft.AspNetCore.Components.Web
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+@using System.ComponentModel.DataAnnotations
+@using System.Text.Json
+
 @using MudBlazor
 @using MudBlazor.Services
 
-@using RCLCP.Interfaces
-@using RCLCP.Services
 @using RCLCP.Components
+@using RCLCP.Entitys
+@using RCLCP.Interfaces
+@using RCLCP.Pages
+@using RCLCP.Services
 
-@* @using RCLCP.Entitys *@
-
-@* @using RCLCP.Pages *@
-
-
+@* Injeção de dependencias *@
 @inject NavigationManager NavigationManager
 
 @inject IPlatformService PlatformService
 
 @inject IDialogService DialogService
+
+@inject IContaBancaria contaBancariaRepositorio

@@ -1,0 +1,52 @@
+﻿@page "/contasbancarias/details"
+
+<PageTitle>Detalhes da Conta Bancaria</PageTitle>
+
+<h1>Detalhes da Conta Bancaria</h1>
+<hr />
+
+<div>
+    @if (ContaBancaria is null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else {
+
+        <EditForm Model="ContaBancaria">
+            <MudCard>
+                <MudCardContent>
+                    <MudText>Nome: @ContaBancaria.Nome</MudText>
+                    <MudText>Ativo: @ContaBancaria.Ativo == true ? "Sim"  : "Não"</MudText>
+ 
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton HRef="@($"/contasbancarias/edit?id={ContaBancaria.ContaBancariaId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton> 
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexContaBancaria" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    }
+</div>
+
+@code {
+    ContaBancaria? ContaBancaria;
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        ContaBancaria = await contaBancariaRepositorio.GetContaBancariaAsync(id);
+
+        if (ContaBancaria is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public void NavigateToIndexContaBancaria()
+    {
+        NavigationManager.NavigateTo("/contasbancarias");
+    }
+}

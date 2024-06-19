@@ -1,0 +1,92 @@
+﻿@page "/contasbancarias/edit"
+
+<PageTitle>Atualizar Conta Bancaria</PageTitle>
+
+<h1>Atualizar Conta Bancaria</h1>
+
+<hr />
+@if (contaBancaria is null)
+{
+    <p><em>Carregando...</em></p>
+}
+else
+{
+    <EditForm Model="contaBancaria" OnValidSubmit="UpdateContaBancaria">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <MudCard>
+            <MudCardContent>
+                <MudTextField @bind-Value="contaBancaria.Nome" Label="Nome" Required="true" />
+                <MudRadioGroup @bind-Value="contaBancaria.Ativo">
+                    <MudRadio Value="true" Color="Color.Primary" Dense="true">Sim</MudRadio>
+                    <MudRadio Value="false" Color="Color.Secondary" Dense="false">Não</MudRadio>
+                </MudRadioGroup>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Salvar</MudButton>
+                <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexContaBancaria" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+}
+
+@code {
+
+  
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    [SupplyParameterFromForm]
+    public ContaBancaria? contaBancaria { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+       
+
+        if (!await ContaBancariaExists(id))
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+
+    public async Task UpdateContaBancaria()
+    {
+
+        try
+        {
+            await contaBancariaRepositorio.UpdateContaBancariaAsync(contaBancaria);
+        }
+        catch (Exception)
+        {
+            if (await ContaBancariaExists(id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/contasbancarias");
+    }
+
+    private async Task<bool> ContaBancariaExists(int id)
+    {
+        contaBancaria ??= await contaBancariaRepositorio.GetContaBancariaAsync(id);
+
+        if (contaBancaria is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+           
+        }
+        return true;
+    }
+
+    public void NavigateToIndexContaBancaria()
+    {
+        NavigationManager.NavigateTo("/contasbancarias");
+    }
+}
