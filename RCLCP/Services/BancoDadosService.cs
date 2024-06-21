@@ -5,8 +5,12 @@ namespace RCLCP.Services
 {
     public class BancoDadosService : IBancoDados
     {
+        private readonly IDropbox DropboxService;
 
-        private readonly string dbPathLocal = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Agenda.db3");
+        public BancoDadosService(IDropbox dropboxService)
+        {
+            this.DropboxService = dropboxService;
+        }
 
         private SQLiteAsyncConnection? _dbConnection ;
 
@@ -14,11 +18,15 @@ namespace RCLCP.Services
         {
             try
             {
-
+         
                 if (_dbConnection == null)
                 {
-                    _dbConnection = new SQLiteAsyncConnection(dbPathLocal,
-                    SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache);
+                    _dbConnection = new SQLiteAsyncConnection(
+                                        Configuration.Database.pathFileLocalSqlite,
+                                        SQLiteOpenFlags.Create | 
+                                        SQLiteOpenFlags.ReadWrite | 
+                                        SQLiteOpenFlags.SharedCache);
+
                     _dbConnection.ExecuteAsync("PRAGMA foreign_keys = ON;").Wait();
                 }
 
@@ -40,6 +48,15 @@ namespace RCLCP.Services
 
             return _dbConnection;
 
+        }
+
+        public void CloseDatabase()
+        {
+            if (_dbConnection != null)
+            {
+                _dbConnection?.CloseAsync().Wait();
+            }
+                  
         }
     }
 }

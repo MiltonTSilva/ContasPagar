@@ -6,6 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Interfaces\IBackup.cs" />
+    <Compile Remove="Services\BackupService.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
@@ -42,6 +47,7 @@
 		Esses pacotes são necessários para permitir o acesso ao SQLite em uma aplicação .NET MAUI, fornecendo as funcionalidades 
 		e as abstrações necessárias para trabalhar com o banco de dados SQLite em diferentes plataformas suportadas.
 	-->
+		<PackageReference Include="Dropbox.Api" Version="7.0.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
 		<PackageReference Include="SQLitePCLRaw.core" Version="2.1.8" />
@@ -56,7 +62,6 @@
 
   <ItemGroup>
     <Folder Include="Entitys\" />
-    <Folder Include="Pages\" />
   </ItemGroup>
 
 </Project>

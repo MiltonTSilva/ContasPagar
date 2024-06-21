@@ -8,7 +8,7 @@ namespace RCLCP.Services
 {
     public class ContaBancariaService : IContaBancaria
     {
-        private readonly SQLiteAsyncConnection? _dbConnection;
+        private SQLiteAsyncConnection? _dbConnection;
         private readonly IBancoDados bancoDadosService;
 
         public ContaBancariaService(IBancoDados bancoDadosService)
@@ -16,7 +16,6 @@ namespace RCLCP.Services
             
             this.bancoDadosService = bancoDadosService;
             _dbConnection = this.bancoDadosService.ConnectionDB<ContaBancaria>();
-
         }
 
 

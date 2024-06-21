@@ -27,9 +27,11 @@ public static class MauiProgram
 		builder.Services.AddMudServices();
 
 		builder.Services.AddSingleton<IPlatformService, PlatformService>();
-		builder.Services.AddSingleton<IBancoDados, BancoDadosService>();
+		//builder.Services.AddSingleton<IBackup, BackupService>();
+        builder.Services.AddSingleton<IDropbox, DropboxService>();
+        builder.Services.AddSingleton<IBancoDados, BancoDadosService>();
 		builder.Services.AddSingleton<IContaBancaria, ContaBancariaService>();
 
-		return builder.Build();
+        return builder.Build();
 	}
 }

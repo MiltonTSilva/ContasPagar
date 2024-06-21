@@ -9,6 +9,7 @@ namespace RCLCP.Interfaces
 
     public interface IBancoDados
     {
-         public SQLiteAsyncConnection ConnectionDB<T>() where T : class, new();
+        SQLiteAsyncConnection ConnectionDB<T>() where T : class, new();
+        void CloseDatabase();
     }
 }
