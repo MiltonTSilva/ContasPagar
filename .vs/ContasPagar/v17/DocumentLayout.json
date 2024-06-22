@@ -3,44 +3,8 @@
   "WorkspaceRootPath": "C:\\Projetos\\ContasPagar\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|c:\\projetos\\contaspagar\\rclcp\\pages\\backup\\backup.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|solutionrelative:rclcp\\pages\\backup\\backup.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|c:\\projetos\\contaspagar\\rclcp\\services\\dropboxservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|solutionrelative:rclcp\\services\\dropboxservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|c:\\projetos\\contaspagar\\rclcp\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|solutionrelative:rclcp\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|c:\\projetos\\contaspagar\\rclcp\\services\\bancodadosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|solutionrelative:rclcp\\services\\bancodadosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|c:\\projetos\\contaspagar\\rclcp\\pages\\contabancaria\\details.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|solutionrelative:rclcp\\pages\\contabancaria\\details.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|c:\\projetos\\contaspagar\\rclcp\\configuration\\configuration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|solutionrelative:rclcp\\configuration\\configuration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|c:\\projetos\\contaspagar\\rclcp\\services\\contabancaria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|solutionrelative:rclcp\\services\\contabancaria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|c:\\projetos\\contaspagar\\rclcp\\interfaces\\idropbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|solutionrelative:rclcp\\interfaces\\idropbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|c:\\projetos\\contaspagar\\rclcp\\interfaces\\ibancodados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}|RCLCP\\RCLCP.csproj|solutionrelative:rclcp\\interfaces\\ibancodados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C7EF88AF-5656-47EE-B870-75282C34F24C}|AppContasPagar\\AppContasPagar.csproj|c:\\projetos\\contaspagar\\appcontaspagar\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C7EF88AF-5656-47EE-B870-75282C34F24C}|AppContasPagar\\AppContasPagar.csproj|solutionrelative:appcontaspagar\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{C7EF88AF-5656-47EE-B870-75282C34F24C}|AppContasPagar\\AppContasPagar.csproj|c:\\projetos\\contaspagar\\appcontaspagar\\appcontaspagar.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{C7EF88AF-5656-47EE-B870-75282C34F24C}|AppContasPagar\\AppContasPagar.csproj|solutionrelative:appcontaspagar\\appcontaspagar.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,132 +22,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Details.razor",
-              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\RCLCP\\Pages\\ContaBancaria\\Details.razor",
-              "RelativeDocumentMoniker": "RCLCP\\Pages\\ContaBancaria\\Details.razor",
-              "ToolTip": "C:\\Projetos\\ContasPagar\\RCLCP\\Pages\\ContaBancaria\\Details.razor",
-              "RelativeToolTip": "RCLCP\\Pages\\ContaBancaria\\Details.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-20T23:07:18.697Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Configuration.cs",
-              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\RCLCP\\Configuration\\Configuration.cs",
-              "RelativeDocumentMoniker": "RCLCP\\Configuration\\Configuration.cs",
-              "ToolTip": "C:\\Projetos\\ContasPagar\\RCLCP\\Configuration\\Configuration.cs",
-              "RelativeToolTip": "RCLCP\\Configuration\\Configuration.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAswAwAAAAyAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T22:28:24.604Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "NavMenu.razor",
-              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\AppContasPagar\\Components\\Layout\\NavMenu.razor",
-              "RelativeDocumentMoniker": "AppContasPagar\\Components\\Layout\\NavMenu.razor",
-              "ToolTip": "C:\\Projetos\\ContasPagar\\AppContasPagar\\Components\\Layout\\NavMenu.razor",
-              "RelativeToolTip": "AppContasPagar\\Components\\Layout\\NavMenu.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-20T22:01:55.452Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "_Imports.razor",
-              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\RCLCP\\_Imports.razor",
-              "RelativeDocumentMoniker": "RCLCP\\_Imports.razor",
-              "ToolTip": "C:\\Projetos\\ContasPagar\\RCLCP\\_Imports.razor",
-              "RelativeToolTip": "RCLCP\\_Imports.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABwAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-20T21:53:39.785Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Backup.razor",
-              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\RCLCP\\Pages\\Backup\\Backup.razor",
-              "RelativeDocumentMoniker": "RCLCP\\Pages\\Backup\\Backup.razor",
-              "ToolTip": "C:\\Projetos\\ContasPagar\\RCLCP\\Pages\\Backup\\Backup.razor",
-              "RelativeToolTip": "RCLCP\\Pages\\Backup\\Backup.razor",
-              "ViewState": "AQIAABUAAAAAAAAAAAAAACgAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-20T21:48:49.205Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ContaBancaria.cs",
-              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\RCLCP\\Services\\ContaBancaria.cs",
-              "RelativeDocumentMoniker": "RCLCP\\Services\\ContaBancaria.cs",
-              "ToolTip": "C:\\Projetos\\ContasPagar\\RCLCP\\Services\\ContaBancaria.cs",
-              "RelativeToolTip": "RCLCP\\Services\\ContaBancaria.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABIAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T00:53:09.458Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "IBancoDados.cs",
-              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\RCLCP\\Interfaces\\IBancoDados.cs",
-              "RelativeDocumentMoniker": "RCLCP\\Interfaces\\IBancoDados.cs",
-              "ToolTip": "C:\\Projetos\\ContasPagar\\RCLCP\\Interfaces\\IBancoDados.cs",
-              "RelativeToolTip": "RCLCP\\Interfaces\\IBancoDados.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T00:08:32.263Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "BancoDadosService.cs",
-              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\RCLCP\\Services\\BancoDadosService.cs",
-              "RelativeDocumentMoniker": "RCLCP\\Services\\BancoDadosService.cs",
-              "ToolTip": "C:\\Projetos\\ContasPagar\\RCLCP\\Services\\BancoDadosService.cs",
-              "RelativeToolTip": "RCLCP\\Services\\BancoDadosService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T23:09:29.534Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "IDropbox.cs",
-              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\RCLCP\\Interfaces\\IDropbox.cs",
-              "RelativeDocumentMoniker": "RCLCP\\Interfaces\\IDropbox.cs",
-              "ToolTip": "C:\\Projetos\\ContasPagar\\RCLCP\\Interfaces\\IDropbox.cs",
-              "RelativeToolTip": "RCLCP\\Interfaces\\IDropbox.cs",
-              "ViewState": "AQIAAAEAAAAAAAAAAAAAAAoAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T00:13:17.14Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DropboxService.cs",
-              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\RCLCP\\Services\\DropboxService.cs",
-              "RelativeDocumentMoniker": "RCLCP\\Services\\DropboxService.cs",
-              "ToolTip": "C:\\Projetos\\ContasPagar\\RCLCP\\Services\\DropboxService.cs",
-              "RelativeToolTip": "RCLCP\\Services\\DropboxService.cs",
-              "ViewState": "AQIAAE4AAAAAAAAAAAAQwF4AAAA4AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T18:33:33.37Z",
+              "Title": "AppContasPagar",
+              "DocumentMoniker": "C:\\Projetos\\ContasPagar\\AppContasPagar\\AppContasPagar.csproj",
+              "RelativeDocumentMoniker": "AppContasPagar\\AppContasPagar.csproj",
+              "ToolTip": "C:\\Projetos\\ContasPagar\\AppContasPagar\\AppContasPagar.csproj",
+              "RelativeToolTip": "AppContasPagar\\AppContasPagar.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-06-22T02:20:06.669Z",
               "EditorCaption": ""
             }
           ]

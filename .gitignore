@@ -201,3 +201,5 @@ __pycache__/
 # Windows thumbnail cache files
 Thumbs.db
 RCLCP/Configuration/Configuration.cs
+
+.fake

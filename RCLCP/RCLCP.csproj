@@ -60,8 +60,4 @@
 
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Entitys\" />
-  </ItemGroup>
-
 </Project>

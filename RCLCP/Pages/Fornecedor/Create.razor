@@ -1,0 +1,67 @@
+﻿@page "/fornecedores/create"
+
+<PageTitle>Novo Fornecedor</PageTitle>
+
+<h1>Novo Fornecedor</h1>
+
+<hr />
+
+<EditForm Model="fornecedor" OnValidSubmit="AddFornecedor">
+    <DataAnnotationsValidator />
+    @* <ValidationSummary /> *@
+    <MudCard>
+        <MudCardContent>
+            <MudTextField @bind-Value="fornecedor.Nome" Label="Nome" Immediate="true" Required="true"  />
+            <ValidationMessage For="() => fornecedor.Nome" RequiredError="O nome é obrigatório." />
+
+            <MudRadioGroup @bind-Value="fornecedor.Ativo">
+                <MudRadio Value="true" Color="Color.Primary" Dense="true">Sim</MudRadio>
+                <MudRadio Value="false" Color="Color.Secondary" Dense="false">Não</MudRadio>
+            </MudRadioGroup>
+
+            <ValidationMessage For="() => fornecedor.Ativo" RequiredError="campo obrigatório." />   
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" >Salvar</MudButton>
+            <MudButton  ButtonType="ButtonType.Button" OnClick="NavigateToIndexFornecedor" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+        </MudCardActions>
+    </MudCard>
+</EditForm>
+
+@code {
+
+    private Fornecedor fornecedor = new Fornecedor();
+   
+
+
+    // protected override async Task OnInitializedAsync()
+    // {
+
+    // }
+
+    
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddFornecedor()
+    {
+
+        var contexto = new ValidationContext(fornecedor, null, null);
+        var resultados = new List<ValidationResult>();
+
+        bool isValid = Validator.TryValidateObject(fornecedor, contexto, resultados, true);
+
+
+        if (isValid)
+        {
+            await fornecedorRepositorio.AddFornecedorAsync(fornecedor);          
+        }
+
+        NavigationManager.NavigateTo("/fornecedores");
+   
+    }
+
+    public void  NavigateToIndexFornecedor()
+    {
+        NavigationManager.NavigateTo("/fornecedores");
+    }
+
+}

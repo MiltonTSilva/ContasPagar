@@ -1,0 +1,92 @@
+﻿@page "/fornecedores/edit"
+
+<PageTitle>Atualizar Fornecedor</PageTitle>
+
+<h1>Atualizar Fornecedor</h1>
+
+<hr />
+@if (fornecedor is null)
+{
+    <p><em>Carregando...</em></p>
+}
+else
+{
+    <EditForm Model="fornecedor" OnValidSubmit="UpdateFornecedor">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <MudCard>
+            <MudCardContent>
+                <MudTextField @bind-Value="fornecedor.Nome" Label="Nome" Required="true" />
+                <MudRadioGroup @bind-Value="fornecedor.Ativo">
+                    <MudRadio Value="true" Color="Color.Primary" Dense="true">Sim</MudRadio>
+                    <MudRadio Value="false" Color="Color.Secondary" Dense="false">Não</MudRadio>
+                </MudRadioGroup>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Salvar</MudButton>
+                <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexFornecedor" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+}
+
+@code {
+
+  
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    [SupplyParameterFromForm]
+    public Fornecedor? fornecedor { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+       
+
+        if (!await FornecedorExists(id))
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+
+    public async Task UpdateFornecedor()
+    {
+
+        try
+        {
+            await fornecedorRepositorio.UpdateFornecedorAsync(fornecedor);
+        }
+        catch (Exception)
+        {
+            if (await FornecedorExists(id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/fornecedores");
+    }
+
+    private async Task<bool> FornecedorExists(int id)
+    {
+        fornecedor ??= await fornecedorRepositorio.GetFornecedorAsync(id);
+
+        if (fornecedor is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+           
+        }
+        return true;
+    }
+
+    public void NavigateToIndexFornecedor()
+    {
+        NavigationManager.NavigateTo("/fornecedores");
+    }
+}

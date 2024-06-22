@@ -1,0 +1,52 @@
+﻿@page "/fornecedores/details"
+
+<PageTitle>Detalhes do Fornecedor</PageTitle>
+
+<h1>Detalhes do Fornecedor</h1>
+<hr />
+
+<div>
+    @if (Fornecedor is null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else {
+
+        <EditForm Model="Fornecedor">
+            <MudCard>
+                <MudCardContent>
+                    <MudText>Nome: @Fornecedor.Nome</MudText>
+                    <MudText>Ativo: @(@Fornecedor.Ativo == true ? "Sim"  : "Não")</MudText>
+ 
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton HRef="@($"/fornecedores/edit?id={Fornecedor.FornecedorId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton> 
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexFornecedor" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    }
+</div>
+
+@code {
+    Fornecedor? Fornecedor;
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        Fornecedor = await fornecedorRepositorio.GetFornecedorAsync(id);
+
+        if (Fornecedor is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public void NavigateToIndexFornecedor()
+    {
+        NavigationManager.NavigateTo("/fornecedores");
+    }
+}

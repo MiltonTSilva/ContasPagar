@@ -1,0 +1,60 @@
+﻿@page "/fornecedores/delete"
+
+
+<PageTitle>Excluir</PageTitle>
+
+<h1>Excluir Fornecedor</h1>
+
+<h3>Tem certeza que deseja excluir?</h3>
+<div>
+    
+    <hr />
+    @if (Fornecedor is null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else {
+        <EditForm method="post" Model="Fornecedor" OnValidSubmit="DeleteFornecedor" FormNome="delete" Enhance>
+            <MudCard>
+                <MudCardContent>
+                    <MudText>Nome: @Fornecedor.Nome</MudText>
+                    <MudText>Ativo: @(@Fornecedor.Ativo == true ? "Sim"  : "Não")</MudText>
+
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton HRef="@($"/fornecedores/edit?id={Fornecedor.FornecedorId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexFornecedor" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+            }
+</div>
+
+@code {
+
+    Fornecedor? Fornecedor;
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Fornecedor = await fornecedorRepositorio.GetFornecedorAsync(id);
+
+        if (Fornecedor is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public async Task DeleteFornecedor()
+    {
+        await fornecedorRepositorio.DeleteFornecedorAsync(Fornecedor);
+        NavigationManager.NavigateTo("/fornecedores");
+    }
+
+    public void NavigateToIndexFornecedor()
+    {
+        NavigationManager.NavigateTo("/fornecedores");
+    }
+}
