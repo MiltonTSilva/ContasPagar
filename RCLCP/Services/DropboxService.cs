@@ -1,6 +1,7 @@
 ﻿using Dropbox.Api;
 using Dropbox.Api.Files;
 using RCLCP.Interfaces;
+using System.Net.Http.Headers;
 
 namespace RCLCP.Services
 {
@@ -40,7 +41,7 @@ namespace RCLCP.Services
             catch (Exception ex)
             {
 
-                retorno = ex.Message;
+                retorno = ex.HResult.ToString() + " - " + ex.Message;
             }
 
             return retorno;
@@ -52,13 +53,20 @@ namespace RCLCP.Services
 
             try
             {
-                using (var dbx = new DropboxClient(accessToken))
+
+                using var httpClient = new HttpClient(new MyAndroidMessageHandler());
+
+                using (var dbx = new DropboxClient(accessToken, new DropboxClientConfig { HttpClient = httpClient }))
                 {
+
                     using (var response = await dbx.Files.DownloadAsync(dropboxFilePath))
                     {
+
                         var content = await response.GetContentAsStreamAsync();
+
                         using (var fileStream = File.Create(localFilePath))
                         {
+
                             await content.CopyToAsync(fileStream);
                         }
                     }
@@ -102,6 +110,18 @@ namespace RCLCP.Services
           
             return retorno;
 
+        }
+
+        public class MyAndroidMessageHandler : HttpClientHandler
+        {
+            protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                if (request.RequestUri!.AbsolutePath.Contains("files/download"))
+                {
+                    request.Content!.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                }
+                return await base.SendAsync(request, cancellationToken);
+            }
         }
     }
 }

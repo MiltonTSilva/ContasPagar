@@ -9,7 +9,9 @@
     </MudText>
     <MudSpacer/>
     <MudLink href="contasbancarias/create" Typo="Typo.h6"  Underline="Underline.None">
-        <MudIcon Icon="@Icons.Material.Outlined.Add" />
+        <MudTooltip Text="Adicionar">
+            <MudFab StartIcon="@Icons.Material.Filled.Add" Size="@Size.Small" Color="Color.Success" />
+        </MudTooltip>
         Nova Conta Bancaria
     </MudLink>
     <MudSpacer />
@@ -18,7 +20,7 @@
 @if(platformService == "Windows")
 {
         <div class="d-flex flex-wrap align-center justify-center">
-            @* <MudSwitch @bind-Checked="@_hover" Color="Color.Primary">Pairar</MudSwitch> Hover="@_hover" *@
+            <MudSwitch @bind-Value = "@_hover" Color="Color.Primary">Pairar</MudSwitch>
             <MudSwitch @bind-Value = "@_dense" Color="Color.Secondary">Denso</MudSwitch>
             <MudSwitch @bind-Value = "@_striped" Color="Color.Info">Listrado</MudSwitch>
             <MudSwitch @bind-Value = "@_bordered" Color="Color.Warning">Borda</MudSwitch>
@@ -33,8 +35,9 @@
                 Filterable="true" 
                 QuickFilter="@_quickFilter" 
                 Groupable="false"
-                Dense="@_dense" 
-                Striped="@_striped" 
+                Hover="@_hover"
+                Dense="@_dense"
+                Striped="@_striped"
                 Bordered="@_bordered" 
                 Hideable="true" 
                 RowClick="@RowClicked" 
@@ -44,21 +47,29 @@
         <MudTextField @bind-Value="_searchString" Placeholder="Procurar" Adornment="Adornment.Start" Immediate="true"
             AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent> 
+
     <Columns>
         @* <SelectColumn T="ContaBancaria"  /> *@
         @* <PropertyColumn Property="x => x.ContaBancariaId" Title="Id" Sortable="false" Filterable="false" /> *@
       
-        <PropertyColumn StickyRight="true" Property="x => x.Nome" SortBy="@_sortBy"  />
-        <PropertyColumn StickyRight="true" Property='x => (x.Ativo == true ? "Sim"  : "Não")' Title="Ativo" Sortable="true" />
+        <PropertyColumn  Property="x => x.Nome" SortBy="@_sortBy"  />
+        <PropertyColumn  Property='x => (x.Ativo == true ? "Sim"  : "Não")' Title="Ativo" Sortable="true" />
 
-        <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" title="Ações" CellStyle=" text-align:center; background-color:lavender; color: black">
+        <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" title="Ações" CellStyle=" text-align:center; background-color:#448AFF; color: black">
             <CellTemplate >
-                <MudIconButton Title="Editar" Icon="@Icons.Material.Outlined.Edit" Size="@Size.Small"  @onclick="(() => Editar(context.Item.ContaBancariaId))"  />
-                <MudIconButton Title="Excluir" Icon="@Icons.Material.Outlined.Delete" Size="@Size.Small" @onclick="(() => Delete(context.Item.ContaBancariaId))" />
-                <MudIconButton Title="Detalhes" Icon="@Icons.Material.Outlined.Contacts" Size="@Size.Small" @onclick="(() => Details(context.Item.ContaBancariaId))" />
+                <MudTooltip Text="Editar">
+                    <MudFab StartIcon="@Icons.Material.Filled.Edit" Size="@Size.Small" Color="Color.Tertiary" @onclick="(() => Editar(context.Item.ContaBancariaId))" />
+                </MudTooltip>
+                <MudTooltip Text="Excluir">
+                    <MudFab StartIcon="@Icons.Material.Filled.Delete" Size="@Size.Small" Color="Color.Secondary" @onclick="(() => Delete(context.Item.ContaBancariaId))" />
+                </MudTooltip>
+                <MudTooltip Text="Detalhes">
+                    <MudFab StartIcon="@Icons.Material.Filled.Details" Size="@Size.Small" Color="Color.Info"  @onclick="(() => Details(context.Item.ContaBancariaId))" />
+                </MudTooltip>
             </CellTemplate>
         </TemplateColumn>
     </Columns>
+
 
     <PagerContent>
         <MudPagination ShowFirstButton="true" ShowLastButton="true" ShowNextButton="false" 
@@ -76,7 +87,7 @@
     private MudDataGrid<ContaBancaria>? _grid;
     private int _currentPage = 0;
 
-    // private bool _hover;
+    private bool _hover;
     private bool _dense;
     private bool _striped;
     private bool _bordered;

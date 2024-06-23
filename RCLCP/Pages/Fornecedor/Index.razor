@@ -9,7 +9,9 @@
     </MudText>
     <MudSpacer/>
     <MudLink href="fornecedores/create" Typo="Typo.h6"  Underline="Underline.None">
-        <MudIcon Icon="@Icons.Material.Outlined.Add" />
+        <MudTooltip Text="Adicionar">
+            <MudFab StartIcon="@Icons.Material.Filled.Add" Size="@Size.Small" Color="Color.Success" />
+        </MudTooltip>
         Novo Fornecedor
     </MudLink>
     <MudSpacer />
@@ -18,7 +20,7 @@
 @if(platformService == "Windows")
 {
         <div class="d-flex flex-wrap align-center justify-center">
-            @* <MudSwitch @bind-Checked="@_hover" Color="Color.Primary">Pairar</MudSwitch> Hover="@_hover" *@
+            <MudSwitch @bind-Value = "@_hover" Color="Color.Primary">Pairar</MudSwitch>
             <MudSwitch @bind-Value = "@_dense" Color="Color.Secondary">Denso</MudSwitch>
             <MudSwitch @bind-Value = "@_striped" Color="Color.Info">Listrado</MudSwitch>
             <MudSwitch @bind-Value = "@_bordered" Color="Color.Warning">Borda</MudSwitch>
@@ -33,6 +35,7 @@
                 Filterable="true" 
                 QuickFilter="@_quickFilter" 
                 Groupable="false"
+                Hover="@_hover"
                 Dense="@_dense" 
                 Striped="@_striped" 
                 Bordered="@_bordered" 
@@ -48,22 +51,27 @@
         @* <SelectColumn T="Fornecedor"  /> *@
         @* <PropertyColumn Property="x => x.FornecedorId" Title="Id" Sortable="false" Filterable="false" /> *@
       
-        <PropertyColumn StickyRight="true" Property="x => x.Nome" SortBy="@_sortBy"  />
-        <PropertyColumn StickyRight="true" Property='x => (x.Ativo == true ? "Sim"  : "Não")' Title="Ativo" Sortable="true" />
+        <PropertyColumn Property="x => x.Nome" SortBy="@_sortBy"  />
+        <PropertyColumn Property='x => (x.Ativo == true ? "Sim"  : "Não")' Title="Ativo" Sortable="true" />
 
-        <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" title="Ações" CellStyle=" text-align:center; background-color:lavender; color: black">
+        <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" title="Ações" CellStyle=" text-align:center; background-color:#448AFF; color: black">
             <CellTemplate >
-                <MudIconButton Title="Editar" Icon="@Icons.Material.Outlined.Edit" Size="@Size.Small"  @onclick="(() => Editar(context.Item.FornecedorId))"  />
-                <MudIconButton Title="Excluir" Icon="@Icons.Material.Outlined.Delete" Size="@Size.Small" @onclick="(() => Delete(context.Item.FornecedorId))" />
-                <MudIconButton Title="Detalhes" Icon="@Icons.Material.Outlined.Contacts" Size="@Size.Small" @onclick="(() => Details(context.Item.FornecedorId))" />
+                <MudTooltip Text="Editar">              
+                    <MudFab Title="Editar" StartIcon="@Icons.Material.Filled.Edit" Size="@Size.Small" Color="Color.Tertiary" @onclick="(() => Editar(context.Item.FornecedorId))" />
+                </MudTooltip>
+                <MudTooltip Text="Excluir">
+                    <MudFab Title="Excluir" StartIcon="@Icons.Material.Filled.Delete" Size="@Size.Small"  Color="Color.Secondary" @onclick="(() => Delete(context.Item.FornecedorId))" />
+                </MudTooltip>
+                <MudTooltip Text="Detalhes">
+                    <MudFab Title="Detalhes" StartIcon="@Icons.Material.Filled.Details" Size="@Size.Small" Color="Color.Info" @onclick="(() => Details(context.Item.FornecedorId))" />
+                </MudTooltip>
             </CellTemplate>
         </TemplateColumn>
     </Columns>
 
     <PagerContent>
-        @* <MudText>Registros por página</MudText> *@
-        <MudPagination ShowFirstButton="true" ShowLastButton="true" ShowNextButton="false" ShowPreviousButton="false" SelectedChanged="PageChanged" Count="@((_grid.GetFilteredItemsCount() + _grid.RowsPerPage - 1) / _grid.RowsPerPage)" Class="pa-4" />
-        @* <MudDataGridPager T="Fornecedor" Style="color: red;font-size: 8px" RowsPerPageString="RP" DisableRowsPerPage="false" /> *@
+        <MudPagination ShowFirstButton="true" ShowLastButton="true" ShowNextButton="false" ShowPreviousButton="false" SelectedChanged="PageChanged" 
+            Count="@((_grid.GetFilteredItemsCount() + _grid.RowsPerPage - 1) / _grid.RowsPerPage)" Class="pa-4" />
     </PagerContent>
 
 </MudDataGrid>
@@ -76,7 +84,7 @@
     private MudDataGrid<Fornecedor>? _grid;
     private int _currentPage = 0;
 
-    // private bool _hover;
+    private bool _hover;
     private bool _dense;
     private bool _striped;
     private bool _bordered;
