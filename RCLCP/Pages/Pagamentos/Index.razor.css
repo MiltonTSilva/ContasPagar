@@ -1,0 +1,113 @@
+﻿.bggrid{
+    background-color:darkkhaki;
+}
+.column{
+    background-color:chocolate;
+    color:white;
+}
+
+/*
+    1. CSS Responsivo
+    Use media queries no CSS para ajustar o layout do grid em diferentes tamanhos de tela.
+
+*/
+
+/*@media (max-width: 600px) {
+    .quickgrid-cell {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}*/
+
+/*
+    2. Classes CSS
+    Aplique classes CSS específicas para ajustar a aparência das células e colunas do grid.
+*/
+
+/*.quickgrid-cell {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+@media (max-width: 600px) {
+    .quickgrid-cell {
+        display: block;
+        width: 100%;
+    }
+}*/
+
+
+/*
+    3. Colapsar Colunas
+    Considere esconder colunas menos importantes em telas menores para melhorar a legibilidade.
+*/
+/*@media (max-width: 600px) {
+    .quickgrid-cell.hide-on-mobile {
+        display: none;
+    }
+}*/
+
+
+/*
+    4. Layout Flexível
+    Use CSS Flexbox para criar um layout mais flexível que se adapte melhor a diferentes tamanhos de tela.
+*/
+/*.quickgrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.quickgrid-cell {
+    flex: 1;
+    min-width: 150px;
+}*/
+
+
+./*quickgrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color:coral;
+}
+
+.quickgrid-cell {
+    padding: 10px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    .quickgrid-cell {
+        display: block;
+        width: 100%;
+    }
+
+    .quickgrid-header {
+        display: none;
+    }
+}*/
+
+/*::deep .quickgrid[theme=corporate] {
+    font-family: 'Comic Sans MS', 'Times New Roman', serif;
+    color: red;
+}
+
+    ::deep .quickgrid[theme=corporate] .col-title {
+        gap: 0.4rem;*/ /* Separate the sort indicator from title text */
+        /*font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    ::deep .quickgrid[theme=corporate] .sort-indicator {
+        color: blue;
+    }
+
+    ::deep .quickgrid[theme=corporate] button.col-title:hover, ::deep .quickgrid[theme=corporate] .col-options-button:hover {
+        background-color: hotpink;
+    }
+
+    ::deep .quickgrid[theme=corporate] button.col-title:active, ::deep .quickgrid[theme=corporate] .col-options-button:active {
+        background-color: yellow;
+    }*/

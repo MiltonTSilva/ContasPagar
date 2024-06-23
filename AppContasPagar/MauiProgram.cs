@@ -32,6 +32,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IBancoDados, BancoDadosService>();
 		builder.Services.AddSingleton<IContaBancaria, ContaBancariaService>();
         builder.Services.AddSingleton<IFornecedor, FornecedorService>();
+        builder.Services.AddSingleton<IPagamento, PagamentoService>();
 
         return builder.Build();
 	}

@@ -1,0 +1,233 @@
+﻿@page "/pagamentos"
+
+<PageTitle>Lista de Pagamentos</PageTitle>
+
+<MudPaper Class="d-flex flex-column flex-grow-1 gap-4 align-center justify-center" Elevation="0">
+    <MudText Typo="Typo.h5" Color="Color.Info" Class="text-justify">
+        <MudIcon Icon="@Icons.Material.Outlined.Payments" />
+        Lista de Pagamentos
+    </MudText>
+    <MudSpacer/>
+    <MudLink href="pagamentos/create" Typo="Typo.h6"  Underline="Underline.None">
+        <MudTooltip Text="Adicionar">
+            <MudFab StartIcon="@Icons.Material.Filled.Add" Size="@Size.Small" Color="Color.Success" />
+        </MudTooltip>
+        Novo Pagamento
+    </MudLink>
+    <MudSpacer />
+</MudPaper>
+
+@if(platformService == "Windows")
+{
+    <div class="d-flex flex-wrap align-center justify-center">
+        <MudSwitch @bind-Value="@_hover" Color="Color.Primary">Pairar</MudSwitch>
+        <MudSwitch @bind-Value="@_dense" Color="Color.Secondary">Denso</MudSwitch>
+        <MudSwitch @bind-Value="@_striped" Color="Color.Info">Listrado</MudSwitch>
+        <MudSwitch @bind-Value="@_bordered" Color="Color.Warning">Borda</MudSwitch>
+    </div>
+}
+
+<MudPaper Class=" pa-8 d-flex flex-wrap gap-4  align-center justify-center" Outlined="true">
+    <MudPaper Class="pa-3" Elevation="6">
+        <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data Inicial"
+                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataInicial" PickerClosed="SelecaoPorPeriodo" Style="width: 160px;" />
+    </MudPaper>
+
+    <MudPaper Class="pa-3" Elevation="6">
+        <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data Final"
+                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataFinal" PickerClosed="SelecaoPorPeriodo" Style="width: 160px;" />
+    </MudPaper>
+</MudPaper>
+
+
+<MudDataGrid
+    T="Pagamento" @ref="@_grid" 
+    Items="@Elements"
+    CurrentPage="@_currentPage"
+    MultiSelection="true" 
+    ColumnResizeMode="ResizeMode.Column"
+    SortMode="SortMode.Multiple" 
+    Filterable="true" 
+    QuickFilter="@_quickFilter" 
+    Groupable="false"
+    Hover="@_hover"
+    Dense="@_dense" 
+    Striped="@_striped" 
+    Bordered="@_bordered" 
+    Hideable="true" 
+    RowClick="@RowClicked" 
+    RowContextMenuClick="RowRightClicked" 
+    SelectedItemsChanged="@SelectedItemsChanged">
+
+    <ToolBarContent>
+@*         <MudText Typo="Typo.h6" Color="Color.Primary">Contas a pagar</MudText>
+        <MudSpacer /> *@
+        <MudTextField @bind-Value="_searchString" Placeholder="Procurar" Adornment="Adornment.Start" Immediate="true"
+                        AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" ></MudTextField>
+    </ToolBarContent>
+    
+    <Columns>
+        @* <SelectColumn T="Pagamento"  /> *@
+        @* <PropertyColumn Property="x => x.PagamentoId" Title="Id" Sortable="false" Filterable="false" /> *@
+      
+        <PropertyColumn Property="x => x.DataPagamento" Title="Data Pagamento" Format="dd/MM/yyyy" Sortable="true" />
+        <PropertyColumn Property="x => x.Fornecedor!.Nome" Title="Descrição" SortBy="@_sortBy"  Sortable="true" />
+        <PropertyColumn Property="x => x.ValorPagar" Title="Valor a Pagar" Sortable="true" Format="N2"/>
+
+        <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" title="Ações" CellStyle=" text-align:center; background-color:#448AFF; color: black">
+            <CellTemplate >
+                <MudTooltip Text="Editar">
+                    <MudFab StartIcon="@Icons.Material.Filled.Edit" Size="@Size.Small" Color="Color.Tertiary" @onclick="(() => Editar(context.Item.PagamentoId))" />
+                </MudTooltip>
+                <MudTooltip Text="Excluir">
+                    <MudFab StartIcon="@Icons.Material.Filled.Delete" Size="@Size.Small" Color="Color.Secondary" @onclick="(() => Delete(context.Item.PagamentoId))" />
+                </MudTooltip>
+                <MudTooltip Text="Detalhes">
+                    <MudFab StartIcon="@Icons.Material.Filled.Details" Size="@Size.Small" Color="Color.Info" @onclick="(() => Details(context.Item.PagamentoId))" />
+                </MudTooltip>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+
+    <PagerContent>
+        <MudPagination ShowFirstButton="true" ShowLastButton="true" ShowNextButton="false" ShowPreviousButton="false" SelectedChanged="PageChanged"
+            Count="@((_grid!.GetFilteredItemsCount() + _grid.RowsPerPage - 1) / _grid.RowsPerPage)" Class="pa-4" />
+    </PagerContent>
+
+</MudDataGrid>
+
+@if(TotalValorPagar > 0)
+{
+    <MudPaper Class=" pa-4 ma-2 d-flex flex-column flex-grow-1 gap-4 align-center justify-center" Outlined="true" Square="true">
+        <MudText Typo="Typo.h5" Color="Color.Info">Valor Total a Pagar </MudText>
+        <MudText Typo="Typo.h6" Color="Color.Success">R$ @TotalValorPagar.ToString("N2")</MudText>
+        @* <MudNumericField @bind-Value="TotalValorPagar" Label="Valor Total a Pagar" Immediate="false" Format="N2" /> *@
+
+    </MudPaper>
+}
+
+
+@code {
+    string platformService = string.Empty;
+    string erro = string.Empty;
+
+    private MudDataGrid<Pagamento>? _grid;
+    private int _currentPage = 0;
+
+    private bool _hover;
+    private bool _dense;
+    private bool _striped;
+    private bool _bordered;
+
+    IEnumerable<Pagamento>? Elements ;
+    private string? _searchString;
+    private bool _sortNameByLength = false;
+    private List<string> _events = new();
+
+    private decimal TotalValorPagar = 0;
+    DateTime? DataInicial = DateTime.Today;
+    DateTime? DataFinal = DateTime.Today;
+
+    private void Editar(int id)
+    {
+        NavigationManager.NavigateTo($"/pagamentos/edit?id={id}");
+    }
+
+    private void Delete(int id)
+    {
+        NavigationManager.NavigateTo($"/pagamentos/delete?id={id}");
+    }
+
+    private void Details(int id)
+    {
+        NavigationManager.NavigateTo($"/pagamentos/details?id={id}");
+    }
+
+
+    private void PageChanged(int i)
+    {
+        _currentPage = i - 1;
+    }
+
+    private void SelecaoPorPeriodo()
+    {
+        if (DataInicial < DateTime.Today)
+        {
+            DataInicial = DateTime.Today;
+        }
+        else if(DataInicial != null || DataFinal != null)
+        {
+            Elements = Elements!.Where(w => w.DataPagamento >= DataInicial && w.DataPagamento <= DataFinal);
+            TotalValorPagar = Elements.Sum(item => item.ValorPagar);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+
+            await Task.Delay(300);
+
+            platformService = PlatformService.GetPlatform();
+
+            var list = await pagamentoRepositorio.GetPagamentosComFornecedorAsync();
+            var queryable = list.AsEnumerable();
+
+            Elements = queryable;
+
+            TotalValorPagar =  Elements.Sum(item => item.ValorPagar);
+        }
+        catch (Exception e)
+        {
+
+            erro = e.Message;
+        }
+    }
+
+    //custom sort by name length
+    private Func<Pagamento, object> _sortBy => x =>
+    {
+        if (_sortNameByLength)
+            return x.Fornecedor!.Nome.Length;
+        else
+            return x.Fornecedor!.Nome;
+    };
+
+    // quick filter - filter globally across multiple columns with the same input
+    private Func<Pagamento, bool> _quickFilter => x =>
+       {
+           if (string.IsNullOrWhiteSpace(_searchString))
+               return true;
+
+
+           if (x.Fornecedor!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+           {
+               Elements = Elements!.Where(w => w.Fornecedor!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase));
+               TotalValorPagar = Elements.Sum(item => item.ValorPagar);
+               return true;
+           }
+           
+
+
+
+        return false;
+       };
+
+    // events
+    void RowClicked(DataGridRowClickEventArgs<Pagamento> args)
+    {
+        _events.Insert(0, $"Event = RowClick, Index = {args.RowIndex}, Data = {JsonSerializer.Serialize(args.Item)}");
+    }
+
+    void RowRightClicked(DataGridRowClickEventArgs<Pagamento> args)
+    {
+        _events.Insert(0, $"Event = RowRightClick, Index = {args.RowIndex}, Data = {JsonSerializer.Serialize(args.Item)}");
+    }
+
+    void SelectedItemsChanged(HashSet<Pagamento> items)
+    {
+        _events.Insert(0, $"Event = SelectedItemsChanged, Data = {JsonSerializer.Serialize(items)}");
+    }
+
+}

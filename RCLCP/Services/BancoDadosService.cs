@@ -22,7 +22,7 @@ namespace RCLCP.Services
                 if (_dbConnection == null)
                 {
                     _dbConnection = new SQLiteAsyncConnection(
-                                        Configuration.Database.pathFileLocalSqlite,
+                                        Configuration.Database.PathFileLocalSqlite,
                                         SQLiteOpenFlags.Create | 
                                         SQLiteOpenFlags.ReadWrite | 
                                         SQLiteOpenFlags.SharedCache);

@@ -1,0 +1,53 @@
+﻿@page "/pagamentos/details"
+
+<PageTitle>Detalhes do Pagamento</PageTitle>
+
+<h1>Detalhes do Pagamento</h1>
+<hr />
+
+<div>
+    @if (Pagamento is null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else {
+
+        <EditForm Model="Pagamento">
+            <MudCard>
+                <MudCardContent>
+                    <MudText>Data Pagamento: @Pagamento.DataPagamento</MudText>
+                    <MudText>Fornecedor: @Pagamento.Fornecedor!.Nome</MudText>
+                    <MudText>Valor Pagar: @Pagamento.ValorPagar</MudText>
+
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton HRef="@($"/pagamentos/edit?id={Pagamento.PagamentoId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton> 
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexPagamento" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    }
+</div>
+
+@code {
+    Pagamento? Pagamento;
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        Pagamento = await pagamentoRepositorio.GetPagamentoComFornecedorAsync(id);
+
+        if (Pagamento is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public void NavigateToIndexPagamento()
+    {
+        NavigationManager.NavigateTo("/pagamentos");
+    }
+}

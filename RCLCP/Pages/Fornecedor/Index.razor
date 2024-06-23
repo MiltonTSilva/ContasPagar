@@ -71,7 +71,7 @@
 
     <PagerContent>
         <MudPagination ShowFirstButton="true" ShowLastButton="true" ShowNextButton="false" ShowPreviousButton="false" SelectedChanged="PageChanged" 
-            Count="@((_grid.GetFilteredItemsCount() + _grid.RowsPerPage - 1) / _grid.RowsPerPage)" Class="pa-4" />
+            Count="@((_grid!.GetFilteredItemsCount() + _grid.RowsPerPage - 1) / _grid.RowsPerPage)" Class="pa-4" />
     </PagerContent>
 
 </MudDataGrid>

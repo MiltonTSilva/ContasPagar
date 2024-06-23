@@ -1,0 +1,100 @@
+﻿@page "/pagamentos/edit"
+
+<PageTitle>Atualizar Pagamento</PageTitle>
+
+<h1>Atualizar Pagamento</h1>
+
+<hr />
+@if (pagamento is null)
+{
+    <p><em>Carregando...</em></p>
+}
+else
+{
+    <EditForm Model="pagamento" OnValidSubmit="UpdatePagamento">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <MudCard>
+            <MudCardContent>
+                <MudTextField @bind-Value="pagamento.DataPagamento" Label="Data Pagamento" Required="true" />
+                <MudTextField @bind-Value="pagamento.ValorPagar" Label="Valor a Pagar" Required="true" />
+                <MudSelect T="int" Label="Fornecedor" @bind-Value="pagamento.FornecedorId" Required="true">
+                    <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
+                    @foreach (var tipo in lstFornecedor)
+                    {
+                        <MudSelectItem T="int" Value="tipo.FornecedorId">@tipo.Nome</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Salvar</MudButton>
+                <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexPagamento" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+}
+
+@code {
+
+    private List<Fornecedor> lstFornecedor = new List<Fornecedor>();
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    [SupplyParameterFromForm]
+    public Pagamento? pagamento { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFornecedor();
+
+        if (!await PagamentoExists(id))
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public async Task GetFornecedor()
+    {
+        lstFornecedor = await fornecedorRepositorio.GetFornecedoresAsync();
+    }
+
+    public async Task UpdatePagamento()
+    {
+
+        try
+        {
+            await pagamentoRepositorio.UpdatePagamentoAsync(pagamento);
+        }
+        catch (Exception)
+        {
+            if (await PagamentoExists(id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/pagamentos");
+    }
+
+    private async Task<bool> PagamentoExists(int id)
+    {
+        pagamento ??= await pagamentoRepositorio.GetPagamentoAsync(id);
+
+        if (pagamento is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+           
+        }
+        return true;
+    }
+
+    public void NavigateToIndexPagamento()
+    {
+        NavigationManager.NavigateTo("/pagamentos");
+    }
+}

@@ -1,0 +1,97 @@
+﻿@page "/pagamentos/create"
+
+
+
+<PageTitle>Novo Pagamento</PageTitle>
+
+<h1>Novo Pagamento</h1>
+
+<hr />
+
+<EditForm Model="pagamento" OnValidSubmit="AddPagamento">
+    <DataAnnotationsValidator />
+    @* <ValidationSummary /> *@
+    <MudCard>
+        <MudCardContent>
+
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data de Pagamento" DisplayMonths="2"
+                           TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataPagamento" PickerClosed="SelecaoPorPeriodo" />
+            <ValidationMessage For="() => pagamento.DataPagamento" RequiredError="Data de pagamento é obrigatório." />
+            
+                <MudSelect T="int" @bind-Value="pagamento.FornecedorId" Label="Fornecedor" Placeholder="Selecione um fornecedor" Immediate="true" Required="true">
+                <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
+                @foreach (var tipo in lstFornecedor)
+                {
+                    <MudSelectItem T="int" Value="tipo.FornecedorId">@tipo.Nome</MudSelectItem>
+                }
+            </MudSelect>
+            <ValidationMessage For="() => pagamento.FornecedorId" RequiredError="O fornecedor é obrigatório." />
+
+            <MudNumericField @bind-Value="pagamento.ValorPagar" Label="Valor a pagar" Immediate="false" Format="N2" Culture="@_ptBr" Required="true" />
+            <ValidationMessage For="() => pagamento.ValorPagar" RequiredError="O Valor a pagar é obrigatório." />
+
+            </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" >Salvar</MudButton>
+            <MudButton  ButtonType="ButtonType.Button" OnClick="NavigateToIndexPagamento" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+        </MudCardActions>
+    </MudCard>
+</EditForm>
+
+@code {
+
+    private Pagamento pagamento = new Pagamento();
+
+    private List<Fornecedor> lstFornecedor = new List<Fornecedor>();
+
+    public CultureInfo _ptBr = CultureInfo.GetCultureInfo("pt-BR");
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFornecedor();
+        pagamento.FornecedorId = 0;
+    }
+
+    public async Task GetFornecedor()
+    {
+        lstFornecedor = await fornecedorRepositorio.GetFornecedoresAsync();
+    }
+
+    
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddPagamento()
+    {
+
+        var contexto = new ValidationContext(pagamento, null, null);
+        var resultados = new List<ValidationResult>();
+
+        bool isValid = Validator.TryValidateObject(pagamento, contexto, resultados, true);
+
+        if (pagamento.FornecedorId <= 0) 
+        {
+            isValid = false;
+        }
+
+        if (isValid)
+        {
+            await pagamentoRepositorio.AddPagamentoAsync(pagamento);          
+        }
+
+        NavigationManager.NavigateTo("/pagamentos");
+  
+    }
+
+    private void SelecaoPorPeriodo()
+    {
+        if (pagamento.DataPagamento < DateTime.Today)
+        {
+            pagamento.DataPagamento = DateTime.Today.AddDays(1);
+        }
+    }
+
+    public void  NavigateToIndexPagamento()
+    {
+        NavigationManager.NavigateTo("/pagamentos");
+    }
+
+}

@@ -20,30 +20,33 @@
 @if(platformService == "Windows")
 {
         <div class="d-flex flex-wrap align-center justify-center">
-            <MudSwitch @bind-Value = "@_hover" Color="Color.Primary">Pairar</MudSwitch>
-            <MudSwitch @bind-Value = "@_dense" Color="Color.Secondary">Denso</MudSwitch>
-            <MudSwitch @bind-Value = "@_striped" Color="Color.Info">Listrado</MudSwitch>
-            <MudSwitch @bind-Value = "@_bordered" Color="Color.Warning">Borda</MudSwitch>
+            <MudSwitch @bind-Value="@_hover" Color="Color.Primary">Pairar</MudSwitch>
+            <MudSwitch @bind-Value="@_dense" Color="Color.Secondary">Denso</MudSwitch>
+            <MudSwitch @bind-Value="@_striped" Color="Color.Info">Listrado</MudSwitch>
+            <MudSwitch @bind-Value="@_bordered" Color="Color.Warning">Borda</MudSwitch>
         </div>
 }
 
-<MudDataGrid    T="ContaBancaria" @ref="@_grid" Items="@Elements"
-                CurrentPage="@_currentPage"
-                MultiSelection="true" 
-                ColumnResizeMode="ResizeMode.Column"
-                SortMode="SortMode.Multiple" 
-                Filterable="true" 
-                QuickFilter="@_quickFilter" 
-                Groupable="false"
-                Hover="@_hover"
-                Dense="@_dense"
-                Striped="@_striped"
-                Bordered="@_bordered" 
-                Hideable="true" 
-                RowClick="@RowClicked" 
-                RowContextMenuClick="RowRightClicked" 
-                SelectedItemsChanged="@SelectedItemsChanged">
-      <ToolBarContent>
+<MudDataGrid    
+    T="ContaBancaria" @ref="@_grid" 
+    Items="@Elements"
+    CurrentPage="@_currentPage"
+    MultiSelection="true" 
+    ColumnResizeMode="ResizeMode.Column"
+    SortMode="SortMode.Multiple" 
+    Filterable="true" 
+    QuickFilter="@_quickFilter" 
+    Groupable="false"
+    Hover="@_hover"
+    Dense="@_dense"
+    Striped="@_striped"
+    Bordered="@_bordered" 
+    Hideable="true" 
+    RowClick="@RowClicked" 
+    RowContextMenuClick="RowRightClicked" 
+    SelectedItemsChanged="@SelectedItemsChanged">
+
+    <ToolBarContent>
         <MudTextField @bind-Value="_searchString" Placeholder="Procurar" Adornment="Adornment.Start" Immediate="true"
             AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent> 
