@@ -15,9 +15,12 @@
         <EditForm Model="Pagamento">
             <MudCard>
                 <MudCardContent>
-                    <MudText>Data Pagamento: @Pagamento.DataPagamento</MudText>
-                    <MudText>Fornecedor: @Pagamento.Fornecedor!.Nome</MudText>
-                    <MudText>Valor Pagar: @Pagamento.ValorPagar</MudText>
+                    <MudText><b>Data Pagamento: </b>@Pagamento.DataPagamento?.ToString("dd/MM/yyyy")</MudText>
+                    <MudText><b>Fornecedor: </b>@Pagamento.Fornecedor!.Nome</MudText>
+                    <MudText><b>Valor Pagar: </b>@Pagamento.ValorPagar.ToString("N2")</MudText>
+                    <MudText><b>Valor Pago: </b>@Pagamento.ValorPago.ToString("N2")</MudText>
+                    <MudText><b>Débito Automático?: </b>@(@Pagamento.DebitoAutomatico == true ? "Sim" : "Não")</MudText>
+                    <MudText><b>Conta já foi paga?: </b>@(@Pagamento.EstaPago == true ? "Sim" : "Não")</MudText>
 
                 </MudCardContent>
                 <MudCardActions>

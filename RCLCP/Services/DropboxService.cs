@@ -50,18 +50,14 @@ namespace RCLCP.Services
 
         public async Task<string> DownloadFileFromDropbox(string accessToken, string dropboxFilePath, string localFilePath)
         {
-
             try
             {
-
                 using var httpClient = new HttpClient(new MyAndroidMessageHandler());
 
                 using (var dbx = new DropboxClient(accessToken, new DropboxClientConfig { HttpClient = httpClient }))
                 {
-
                     using (var response = await dbx.Files.DownloadAsync(dropboxFilePath))
                     {
-
                         var content = await response.GetContentAsStreamAsync();
 
                         using (var fileStream = File.Create(localFilePath))
@@ -77,10 +73,10 @@ namespace RCLCP.Services
             catch (Exception ex)
             {
 
-                retorno = ex.Message;
+                retorno = ex.HResult.ToString() + " - " + ex.Message;
             }
-  
-             return retorno;
+
+            return retorno;
         }
 
         public async Task<string> UploadFileToDropbox(string accessToken, string dropboxFilePath, string localFilePath)
@@ -105,9 +101,9 @@ namespace RCLCP.Services
             catch (Exception ex)
             {
 
-                retorno = ex.Message;
+                retorno = ex.HResult.ToString() + " - " + ex.Message;
             }
-          
+
             return retorno;
 
         }

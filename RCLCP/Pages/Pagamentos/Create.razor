@@ -15,7 +15,7 @@
         <MudCardContent>
 
             <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data de Pagamento" DisplayMonths="2"
-                           TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataPagamento" PickerClosed="SelecaoPorPeriodo" />
+                           TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataPagamento" Required="true" PickerClosed="SelecaoPorPeriodo" />
             <ValidationMessage For="() => pagamento.DataPagamento" RequiredError="Data de pagamento é obrigatório." />
             
                 <MudSelect T="int" @bind-Value="pagamento.FornecedorId" Label="Fornecedor" Placeholder="Selecione um fornecedor" Immediate="true" Required="true">
@@ -30,7 +30,13 @@
             <MudNumericField @bind-Value="pagamento.ValorPagar" Label="Valor a pagar" Immediate="false" Format="N2" Culture="@_ptBr" Required="true" />
             <ValidationMessage For="() => pagamento.ValorPagar" RequiredError="O Valor a pagar é obrigatório." />
 
-            </MudCardContent>
+            <MudText>Débito Automático?</MudText>
+            <MudRadioGroup @bind-Value="pagamento.DebitoAutomatico">
+                <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
+                <MudRadio Value="false" Color="Color.Secondary" Dense="true">Não</MudRadio>
+            </MudRadioGroup>
+
+        </MudCardContent>
         <MudCardActions>
             <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" >Salvar</MudButton>
             <MudButton  ButtonType="ButtonType.Button" OnClick="NavigateToIndexPagamento" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>

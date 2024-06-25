@@ -13,11 +13,17 @@ else
 {
     <EditForm Model="pagamento" OnValidSubmit="UpdatePagamento">
         <DataAnnotationsValidator />
-        <ValidationSummary />
+        @* <ValidationSummary /> *@
         <MudCard>
             <MudCardContent>
-                <MudTextField @bind-Value="pagamento.DataPagamento" Label="Data Pagamento" Required="true" />
-                <MudTextField @bind-Value="pagamento.ValorPagar" Label="Valor a Pagar" Required="true" />
+                <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data de Pagamento" DisplayMonths="2"
+                               TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataPagamento" Required="true" PickerClosed="SelecaoPorPeriodo" />
+                <ValidationMessage For="() => pagamento.DataPagamento" RequiredError="Data de pagamento é obrigatório." />
+
+                <MudNumericField @bind-Value="pagamento.ValorPagar" Label="Valor a pagar" Immediate="false" Format="N2" Culture="@_ptBr" Required="true" />
+                <ValidationMessage For="() => pagamento.ValorPagar" RequiredError="O Valor a pagar é obrigatório." />
+                <MudNumericField @bind-Value="pagamento.ValorPago" Label="Valor Pago" Immediate="false" Format="N2" Culture="@_ptBr"  />
+
                 <MudSelect T="int" Label="Fornecedor" @bind-Value="pagamento.FornecedorId" Required="true">
                     <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
                     @foreach (var tipo in lstFornecedor)
@@ -25,6 +31,18 @@ else
                         <MudSelectItem T="int" Value="tipo.FornecedorId">@tipo.Nome</MudSelectItem>
                     }
                 </MudSelect>
+                <ValidationMessage For="() => pagamento.FornecedorId" RequiredError="O fornecedor é obrigatório." />
+
+                <MudText>Débito Automático?</MudText>
+                <MudRadioGroup @bind-Value="pagamento.DebitoAutomatico">
+                    <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
+                    <MudRadio Value="false" Color="Color.Secondary" Dense="true">Não</MudRadio>
+                </MudRadioGroup>
+                <MudText>Conta paga?</MudText>
+                <MudRadioGroup @bind-Value="pagamento.EstaPago">
+                    <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
+                    <MudRadio Value="false" Color="Color.Secondary" Dense="true">Não</MudRadio>
+                </MudRadioGroup>
             </MudCardContent>
             <MudCardActions>
                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Salvar</MudButton>
@@ -36,6 +54,7 @@ else
 
 @code {
 
+    public CultureInfo _ptBr = CultureInfo.GetCultureInfo("pt-BR");
     private List<Fornecedor> lstFornecedor = new List<Fornecedor>();
 
     [SupplyParameterFromQuery]
@@ -54,6 +73,13 @@ else
         }
     }
 
+    private void SelecaoPorPeriodo()
+    {
+        if (pagamento?.DataPagamento < DateTime.Today)
+        {
+            pagamento.DataPagamento = DateTime.Today.AddDays(1);
+        }
+    }
     public async Task GetFornecedor()
     {
         lstFornecedor = await fornecedorRepositorio.GetFornecedoresAsync();
@@ -64,6 +90,7 @@ else
 
         try
         {
+            if (pagamento!.EstaPago == true && pagamento.ValorPago == 0) pagamento.ValorPago = pagamento.ValorPagar;
             await pagamentoRepositorio.UpdatePagamentoAsync(pagamento);
         }
         catch (Exception)

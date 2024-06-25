@@ -28,15 +28,19 @@
 }
 
 <MudPaper Class=" pa-8 d-flex flex-wrap gap-4  align-center justify-center" Outlined="true">
-    <MudPaper Class="pa-3" Elevation="6">
+    <MudPaper Class="pa-2" Elevation="4">
         <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data Inicial"
-                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataInicial" PickerClosed="SelecaoPorPeriodo" Style="width: 160px;" />
+                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataInicial" PickerClosed="@SomaValor" Style="max-width: 200px;" />
     </MudPaper>
 
-    <MudPaper Class="pa-3" Elevation="6">
+    <MudPaper Class="pa-2" Elevation="4">
         <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data Final"
-                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataFinal" PickerClosed="SelecaoPorPeriodo" Style="width: 160px;" />
+                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataFinal" PickerClosed="@SomaValor" Style="max-width: 200px;" />
     </MudPaper>
+    <MudPaper Class="pa-2" Elevation="4">
+        <MudCheckBox @bind-Value="@isContaPaga" @bind-Value:after="SomaValor" Color="Color.Secondary" Label="Conta já paga" Style="max-width: 200px;" />
+    </MudPaper>
+
 </MudPaper>
 
 
@@ -60,8 +64,6 @@
     SelectedItemsChanged="@SelectedItemsChanged">
 
     <ToolBarContent>
-@*         <MudText Typo="Typo.h6" Color="Color.Primary">Contas a pagar</MudText>
-        <MudSpacer /> *@
         <MudTextField @bind-Value="_searchString" Placeholder="Procurar" Adornment="Adornment.Start" Immediate="true"
                         AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" ></MudTextField>
     </ToolBarContent>
@@ -73,6 +75,7 @@
         <PropertyColumn Property="x => x.DataPagamento" Title="Data Pagamento" Format="dd/MM/yyyy" Sortable="true" />
         <PropertyColumn Property="x => x.Fornecedor!.Nome" Title="Descrição" SortBy="@_sortBy"  Sortable="true" />
         <PropertyColumn Property="x => x.ValorPagar" Title="Valor a Pagar" Sortable="true" Format="N2"/>
+        <PropertyColumn Property='x => (x.EstaPago == true ? "Sim"  : "Não")' Title="Pago?" Sortable="true" />
 
         <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" title="Ações" CellStyle=" text-align:center; background-color:#448AFF; color: black">
             <CellTemplate >
@@ -101,7 +104,6 @@
     <MudPaper Class=" pa-4 ma-2 d-flex flex-column flex-grow-1 gap-4 align-center justify-center" Outlined="true" Square="true">
         <MudText Typo="Typo.h5" Color="Color.Info">Valor Total a Pagar </MudText>
         <MudText Typo="Typo.h6" Color="Color.Success">R$ @TotalValorPagar.ToString("N2")</MudText>
-        @* <MudNumericField @bind-Value="TotalValorPagar" Label="Valor Total a Pagar" Immediate="false" Format="N2" /> *@
 
     </MudPaper>
 }
@@ -119,15 +121,39 @@
     private bool _striped;
     private bool _bordered;
 
+    private bool isContaPaga = false;
+
     IEnumerable<Pagamento>? Elements ;
     private string? _searchString;
     private bool _sortNameByLength = false;
     private List<string> _events = new();
 
     private decimal TotalValorPagar = 0;
-    DateTime? DataInicial = DateTime.Today;
-    DateTime? DataFinal = DateTime.Today;
+    DateTime? DataInicial = new DateTime(DateTime.Today.Year, DateTime.Today.Month,1);
+    DateTime? DataFinal = DateTime.Today.AddDays(DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month) - DateTime.Today.Day);
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await Task.Delay(300);
+
+            platformService = PlatformService.GetPlatform();
+
+            var list = await pagamentoRepositorio.GetPagamentosComFornecedorAsync();
+            Elements = list.AsEnumerable().Where(w => w.EstaPago == isContaPaga);
+
+            // Elements = queryable;
+
+            SomaValor();
+            // TotalValorPagar = Elements.Sum(item => item.ValorPagar);
+        }
+        catch (Exception e)
+        {
+
+            erro = e.Message;
+        }
+    }
     private void Editar(int id)
     {
         NavigationManager.NavigateTo($"/pagamentos/edit?id={id}");
@@ -151,39 +177,24 @@
 
     private void SelecaoPorPeriodo()
     {
-        if (DataInicial < DateTime.Today)
+        if (DataInicial < DateTime.Today && !isContaPaga)
         {
             DataInicial = DateTime.Today;
         }
         else if(DataInicial != null || DataFinal != null)
         {
-            Elements = Elements!.Where(w => w.DataPagamento >= DataInicial && w.DataPagamento <= DataFinal);
-            TotalValorPagar = Elements.Sum(item => item.ValorPagar);
+
+            SomaValor();
         }
     }
 
-    protected override async Task OnInitializedAsync()
+    private void SomaValor()
     {
-        try
-        {
-
-            await Task.Delay(300);
-
-            platformService = PlatformService.GetPlatform();
-
-            var list = await pagamentoRepositorio.GetPagamentosComFornecedorAsync();
-            var queryable = list.AsEnumerable();
-
-            Elements = queryable;
-
-            TotalValorPagar =  Elements.Sum(item => item.ValorPagar);
-        }
-        catch (Exception e)
-        {
-
-            erro = e.Message;
-        }
+        Elements = Elements!.Where(w => w.DataPagamento >= DataInicial && w.DataPagamento <= DataFinal && w.EstaPago == isContaPaga);
+        TotalValorPagar = Elements.Sum(item => item.ValorPagar);
     }
+
+   
 
     //custom sort by name length
     private Func<Pagamento, object> _sortBy => x =>
@@ -203,7 +214,7 @@
 
            if (x.Fornecedor!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
            {
-               Elements = Elements!.Where(w => w.Fornecedor!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase));
+               Elements = Elements!.Where(w => w.Fornecedor!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase) && w.EstaPago == isContaPaga);
                TotalValorPagar = Elements.Sum(item => item.ValorPagar);
                return true;
            }
