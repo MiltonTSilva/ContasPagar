@@ -37,23 +37,23 @@ Aplicativo criado em Blazor Hybrid
 
 ## Desktop 
 
-![Tela principal desktop](tela-principal-desktop-02.png)
+![Tela principal desktop](tela-principal-desktop-02.png){width=300 height=200}
 
-![Tela novo pagamento desktop](tela-novo-pagamento-desktop-02.png)
+![Tela novo pagamento desktop](tela-novo-pagamento-desktop-02.png){width=300 height=200}
 
-![Tela lista de pagamentos desktop](tela-lista-pagamentos-desktop-02.png)
+![Tela lista de pagamentos desktop](tela-lista-pagamentos-desktop-02.png){width=300 height=200}
 
-![Tela backup desktop](tela-backup-desktop-02.png)
+![Tela backup desktop](tela-backup-desktop-02.png){width=300 height=200}
 
 ## Mobile
 
-![Tela principal mobile](tela-principal-mobile-02.png)
+![Tela principal mobile](tela-principal-mobile-02.png){width=200 height=300}
 
-![Tela novo pagamento mobile](tela-novo-pagamento-mobile-02.png)
+![Tela novo pagamento mobile](tela-novo-pagamento-mobile-02.png){width=200 height=300}
 
-![Tela lista de pagamentos mobile](tela-lista-pagamentos-mobile-02.png)
+![Tela lista de pagamentos mobile](tela-lista-pagamentos-mobile-02.png){width=200 height=300}
 
-![Tela lista de pagamentos mobile com dados](tela-lista-pagamentos-mobile-02a.png)
+![Tela lista de pagamentos mobile com dados](tela-lista-pagamentos-mobile-02a.png){width=200 height=300}
 
-![Tela backup mobile](tela-backup-mobile-02.png)
+![Tela backup mobile](tela-backup-mobile-02.png){width=200 height=300}
 
