@@ -14,19 +14,22 @@
     }
     else
     {
-            <EditForm method="post" Model="contaBancaria" OnValidSubmit="DeleteContaBancaria" FormNome="delete" Enhance>
-                <MudCard>
-                    <MudCardContent>
-                        <MudText>Nome: @contaBancaria.Nome</MudText>
-                        <MudText>Ativo: @(@contaBancaria.Ativo == true ? "Sim"  : "Não")</MudText>
+        <EditForm method="post" Model="contaBancaria" OnValidSubmit="DeleteContaBancaria" FormNome="delete" Enhance>
+            <MudCard>
+                <MudCardContent>
+                    <MudText>Nome: @contaBancaria.Nome</MudText>
+                    <MudText>Ativo: @(@contaBancaria.Ativo == true ? "Sim"  : "Não")</MudText>
 
-                    </MudCardContent>
-                    <MudCardActions>
-                        <MudButton HRef="@($"/contasbancarias/edit?id={contaBancaria.ContaBancariaId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton>
-                        <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexContaBancaria" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
-                    </MudCardActions>
-                </MudCard>
-            </EditForm>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton HRef="@($"/contasbancarias/edit?id={contaBancaria.ContaBancariaId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton>
+                    <MudSpacer/>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary">Excluir</MudButton>
+                    <MudSpacer />
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexContaBancaria" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
     }
 </div>
 

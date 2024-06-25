@@ -23,6 +23,9 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton HRef="@($"/fornecedores/edit?id={Fornecedor.FornecedorId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton>
+                    <MudSpacer />
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary">Excluir</MudButton>
+                    <MudSpacer />
                     <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexFornecedor" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
                 </MudCardActions>
             </MudCard>

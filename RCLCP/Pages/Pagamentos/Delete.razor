@@ -19,10 +19,13 @@
                 <MudCardContent>
                     <MudText>Data Pagamento: @Pagamento.DataPagamento</MudText>
                     <MudText>Fornecedor: @Pagamento.Fornecedor!.Nome</MudText>
-                    <MudText>Valor Pagar: @Pagamento.ValorPagar</MudText>
+                    <MudText>Valor Pagar: @Pagamento.ValorPagar.ToString("N2")</MudText>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton HRef="@($"/pagamentos/edit?id={Pagamento.PagamentoId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton>
+                    <MudSpacer />
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary">Excluir</MudButton>
+                    <MudSpacer />
                     <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexPagamento" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
                 </MudCardActions>
             </MudCard>

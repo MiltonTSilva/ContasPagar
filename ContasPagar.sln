@@ -7,6 +7,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppContasPagar", "AppContas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RCLCP", "RCLCP\RCLCP.csproj", "{CDD46BB1-9494-4C1B-A4F8-EDAD4CD8D903}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4F6890F-59DF-4365-9BE5-B6595DBC9298}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		tela-backup-desktop-02.png = tela-backup-desktop-02.png
+		tela-backup-mobile-02.png = tela-backup-mobile-02.png
+		tela-lista-pagamentos-desktop-02.png = tela-lista-pagamentos-desktop-02.png
+		tela-lista-pagamentos-mobile-02.png = tela-lista-pagamentos-mobile-02.png
+		tela-lista-pagamentos-mobile-02a.png = tela-lista-pagamentos-mobile-02a.png
+		tela-novo-pagamento-desktop-02.png = tela-novo-pagamento-desktop-02.png
+		tela-novo-pagamento-mobile-02.png = tela-novo-pagamento-mobile-02.png
+		tela-principal-desktop-01.png = tela-principal-desktop-01.png
+		tela-principal-desktop-02.png = tela-principal-desktop-02.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
