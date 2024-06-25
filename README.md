@@ -37,23 +37,23 @@ Aplicativo criado em Blazor Hybrid
 
 ## Desktop 
 
-<img src="tela-principal-desktop-02.png" alt="Tela principal desktop" width="300" height="200">
+<img src="tela-principal-desktop-02.png" alt="Tela principal desktop" width="400" height="300">
 
-<img src="tela-novo-pagamento-desktop-02.png" alt="Tela novo pagamento desktop" width="300" height="200">
+<img src="tela-novo-pagamento-desktop-02.png" alt="Tela novo pagamento desktop" width="400" height="300">
 
-<img src="tela-lista-pagamentos-desktop-02.png" alt="Tela lista de pagamentos desktop" width="300" height="200">
+<img src="tela-lista-pagamentos-desktop-02.png" alt="Tela lista de pagamentos desktop" width="400" height="300">
 
-<img src="tela-backup-desktop-02.png" alt="Tela backup desktop" width="300" height="200">
+<img src="tela-backup-desktop-02.png" alt="Tela backup desktop" width="400" height="300">
 
 ## Mobile
 
-<img src="tela-principal-mobile-02.png" alt="Tela principal mobile" width="150" height="200">
+<img src="tela-principal-mobile-02.png" alt="Tela principal mobile" width="250" height="400">
 
-<img src="tela-novo-pagamento-mobile-02.png" alt="Tela novo pagamento mobile" width="150" height="200">
+<img src="tela-novo-pagamento-mobile-02.png" alt="Tela novo pagamento mobile" width="250" height="400">
 
-<img src="tela-lista-pagamentos-mobile-02.png" alt="Tela lista de pagamentos mobile" width="150" height="200">
+<img src="tela-lista-pagamentos-mobile-02.png" alt="Tela lista de pagamentos mobile" width="250" height="400">
 
-<img src="tela-lista-pagamentos-mobile-02a.png" alt="Tela lista de pagamentos mobile com dados" width="150" height="200">
+<img src="tela-lista-pagamentos-mobile-02a.png" alt="Tela lista de pagamentos mobile com dados" width="250" height="400">
 
-<img src="tela-backup-mobile-02.png" alt="principal" width="150" height="200">
+<img src="tela-backup-mobile-02.png" alt="principal" width="250" height="400">
 
