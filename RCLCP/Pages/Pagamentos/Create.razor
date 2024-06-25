@@ -30,6 +30,13 @@
             <MudNumericField @bind-Value="pagamento.ValorPagar" Label="Valor a pagar" Immediate="false" Format="N2" Culture="@_ptBr" Required="true" />
             <ValidationMessage For="() => pagamento.ValorPagar" RequiredError="O Valor a pagar é obrigatório." />
 
+            <MudCheckBox @bind-Value="@isPagamentoRecorrente" Label="Pagamento Recorrente" />
+
+            @if (isPagamentoRecorrente)
+            {
+                <MudNumericField @bind-Value="quantidadeRecorrencia" Label="Quantidades de Ocorrencia" Immediate="false"  Required="true" />
+            }
+
             <MudText>Débito Automático?</MudText>
             <MudRadioGroup @bind-Value="pagamento.DebitoAutomatico">
                 <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
@@ -52,18 +59,25 @@
 
     public CultureInfo _ptBr = CultureInfo.GetCultureInfo("pt-BR");
 
+    private bool isPagamentoRecorrente = false;
+
+    private int quantidadeRecorrencia = 1;
+
+    public DateTime? newDate { get; set; }
+
+
     protected override async Task OnInitializedAsync()
     {
         await GetFornecedor();
         pagamento.FornecedorId = 0;
     }
 
-    public async Task GetFornecedor()
+    private async Task GetFornecedor()
     {
         lstFornecedor = await fornecedorRepositorio.GetFornecedoresAsync();
     }
 
-    
+
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task AddPagamento()
     {
@@ -80,7 +94,18 @@
 
         if (isValid)
         {
-            await pagamentoRepositorio.AddPagamentoAsync(pagamento);          
+            if (isPagamentoRecorrente)
+            {
+                
+                for (int i = 1; i <= quantidadeRecorrencia; i++)
+                {                  
+                    await pagamentoRepositorio.AddPagamentoAsync(pagamento);
+
+                    newDate = pagamento.DataPagamento!.Value.AddMonths(1);
+
+                    pagamento.DataPagamento = newDate;
+                }
+            }           
         }
 
         NavigationManager.NavigateTo("/pagamentos");
