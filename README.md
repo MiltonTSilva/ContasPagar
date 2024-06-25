@@ -37,7 +37,7 @@ Aplicativo criado em Blazor Hybrid
 
 ## Desktop 
 
-![Tela principal desktop]{width=300 height=200}(tela-principal-desktop-02.png)
+<img src="tela-principal-desktop-02.png" alt="Tela principal desktop" width="300" height="200">
 
 ![Tela novo pagamento desktop](tela-novo-pagamento-desktop-02.png){width=300 height=200}
 
