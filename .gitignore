@@ -167,7 +167,7 @@ Generated_Code/
 # to a newer Visual Studio version. Backup files are not needed,
 # because we have git ;-)
 _UpgradeReport_Files/
-Backup*/
+Backup/*
 UpgradeLog*.XML
 UpgradeLog*.htm
 
@@ -203,3 +203,4 @@ Thumbs.db
 RCLCP/Configuration/Configuration.cs
 
 .fake
+/RCLCP/Pages/Backup/Backup.razor
