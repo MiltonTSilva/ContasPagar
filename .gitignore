@@ -204,3 +204,6 @@ RCLCP/Configuration/Configuration.cs
 
 .fake
 /RCLCP/Pages/Backup/Backup.razor
+/RCLCP/Entitys/Usuario.cs
+/RCLCP/Interfaces/IUsuario.cs
+/RCLCP/Services/UsuarioService.cs
