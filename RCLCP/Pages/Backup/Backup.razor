@@ -1,0 +1,130 @@
+﻿@page "/backup"
+
+@* Está pagina será alterada no futuro para backup automático. *@
+
+<MudPaper Class=" pa-8 d-flex flex-wrap gap-4  align-center justify-center" Outlined="true">
+    <MudPaper Class="pa-3" Elevation="6">      
+        <MudButton Disabled="@isDisabledMudButton" @onclick="PerformBackup" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Backup" Color="Color.Warning" Class="cursor-pointer" Style="width: 150px;">Efetuar Backup</MudButton>
+    </MudPaper>
+
+    <MudPaper Class="pa-3" Elevation="6">
+        <MudButton Disabled="@isDisabledMudButton" @onclick="RestoreBackup" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Restore" Color="Color.Warning" Class="cursor-pointer" Style="cursor:pointer;width: 150px;">Restaurar Backup</MudButton>
+    </MudPaper>
+</MudPaper>
+
+
+@if(@isProgressHidden)
+{
+    <MudPaper Class=" pa-8 d-flex  gap-4  align-center justify-center"  Outlined="true">
+        <MudProgressCircular Color="Color.Secondary" Indeterminate="@isProgressHidden" />
+    </MudPaper>
+}
+
+
+@if(@isAlertHidden)
+{
+
+    <MudAlert @ref="mudAlertRef" Severity="@severity" ShowCloseIcon="true" CloseIconClicked="CloseAlert">@message</MudAlert>
+}
+   
+@code {
+    private MudAlert? mudAlertRef;
+
+    private string message = string.Empty;
+    private bool isAlertHidden = false;
+    private bool isProgressHidden = false;
+    private bool isDisabledMudButton = false;
+
+    private Severity severity;
+    private int error = 0;
+
+    async Task PerformBackup()
+    {
+        isProgressHidden = true;
+        isDisabledMudButton = true;
+
+        if (File.Exists(Configuration.Database.PathFileLocalSqlite))
+        {
+
+            bancoDadosRepositorio.CloseDatabase();
+
+            string upload = await dropboxRepositorio.UploadFileToDropbox(
+                    Configuration.Dropbox.Token,
+                    Configuration.Dropbox.PathDropboxFileSqlite,
+                    Configuration.Database.PathFileLocalSqlite).ConfigureAwait(false);
+
+            if (int.TryParse(upload.Substring(0, 6), out error))
+            {
+                if (error == -21462)
+                {
+                    message = "Erro: -2146233088 - Token de acesso inválido!";
+                }
+            }
+            else
+            {
+                message = upload;
+            }
+            severity =  Severity.Success;
+        }
+        else
+        {
+            message = "Arquivo de banco de dados não encontrado!.";
+            severity = Severity.Error;
+
+        }
+
+        isAlertHidden = true;
+        isProgressHidden = false;
+        isDisabledMudButton = false;
+
+    }
+
+    async Task RestoreBackup()
+    {
+        isProgressHidden = true;
+        isDisabledMudButton = true;
+
+        string getDropbox = await dropboxRepositorio.GetDropboxFilePath(
+                 Configuration.Dropbox.Token,
+                 Configuration.Dropbox.PathDropbox,
+                 Configuration.Database.PathFileLocalSqlite).ConfigureAwait(false);
+
+        if (!int.TryParse(getDropbox.Substring(0, 6), out error))
+        {
+
+            bancoDadosRepositorio.CloseDatabase();
+
+            string upload = await dropboxRepositorio.DownloadFileFromDropbox(
+                    Configuration.Dropbox.Token,
+                    Configuration.Dropbox.PathDropboxFileSqlite,
+                    Configuration.Database.PathFileLocalSqlite).ConfigureAwait(false);
+
+            message = upload;
+            severity = Severity.Success;
+        }
+        else
+        {
+            if (error == -21462)
+            {
+                message = "Erro: -2146233088 - Token de acesso inválido!";
+            }
+            else
+            {
+                message = "Arquivo de banco de dados não encontrado para restaurar!. Erro: " ;
+            }
+
+            severity = Severity.Error;
+
+        }
+
+        isAlertHidden = true;
+        isProgressHidden = false;
+        isDisabledMudButton = false;
+
+    }
+
+    private void CloseAlert()
+    {
+        isAlertHidden = false;
+    }
+}
