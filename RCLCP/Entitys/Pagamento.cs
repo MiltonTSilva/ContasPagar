@@ -11,7 +11,7 @@ namespace RCLCP.Entitys
 
         [Required(ErrorMessage = "Fornecedor é obrigatório.")]
         [Range(1, int.MaxValue, ErrorMessage = "Por favor, selecione um fornecedor válido")]
-        public int FornecedorId { get; set; }
+        public int DespesaId { get; set; }
 
         [Required(ErrorMessage = "Data de pagamento é obrigatório.")]
         public DateTime? DataPagamento { get; set; }
@@ -26,7 +26,10 @@ namespace RCLCP.Entitys
 
         public bool EstaPago { get; set; }
 
+        [Required(ErrorMessage = "Pagante é obrigatório.")]
+        public int PaganteId { get; set; }
+
         [Ignore]
-        public Fornecedor? Fornecedor { get; set; }
+        public Despesa? Despesa { get; set; }
     }
 }

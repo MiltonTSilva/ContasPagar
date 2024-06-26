@@ -18,7 +18,7 @@
             <MudCard>
                 <MudCardContent>
                     <MudText>Data Pagamento: @Pagamento.DataPagamento?.ToString("dd/MM/yyyy")</MudText>
-                    <MudText>Fornecedor: @Pagamento.Fornecedor!.Nome</MudText>
+                    <MudText>Despesa: @Pagamento.Despesa!.Nome</MudText>
                     <MudText>Valor a Pagar: @Pagamento.ValorPagar.ToString("N2")</MudText>
                 </MudCardContent>
                 <MudCardActions Class="pa-8 d-flex flex-wrap gap-4 justify-space-between" Outlined="true">
@@ -40,7 +40,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Pagamento = await pagamentoRepositorio.GetPagamentoComFornecedorAsync(id);
+        Pagamento = await pagamentoRepositorio.GetPagamentoComDespesaAsync(id);
 
         if (Pagamento is null)
         {

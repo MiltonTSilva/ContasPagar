@@ -1,0 +1,178 @@
+﻿@page "/despesas"
+
+<PageTitle>Lista de Despesaes</PageTitle>
+
+<MudPaper Class="d-flex flex-column flex-grow-1 gap-4 align-center justify-center" Elevation="0">
+    <MudText Typo="Typo.h5" Color="Color.Info" Class="text-justify">
+        <MudIcon Icon="@Icons.Material.Outlined.AccountBalanceWallet"/>
+        Lista de Despesas
+    </MudText>
+    <MudSpacer/>
+    <MudLink href="despesas/create" Typo="Typo.h6"  Underline="Underline.None">
+        <MudTooltip Text="Adicionar">
+            <MudFab StartIcon="@Icons.Material.Filled.Add" Size="@Size.Small" Color="Color.Success" />
+        </MudTooltip>
+        Nova Despesa
+    </MudLink>
+    <MudSpacer />
+</MudPaper>
+
+@if(platformService == "Windows")
+{
+        <div class="d-flex flex-wrap align-center justify-center">
+            <MudSwitch @bind-Value = "@_hover" Color="Color.Primary">Pairar</MudSwitch>
+            <MudSwitch @bind-Value = "@_dense" Color="Color.Secondary">Denso</MudSwitch>
+            <MudSwitch @bind-Value = "@_striped" Color="Color.Info">Listrado</MudSwitch>
+            <MudSwitch @bind-Value = "@_bordered" Color="Color.Warning">Borda</MudSwitch>
+        </div>
+}
+
+<MudDataGrid    T="Despesa" @ref="@_grid" Items="@Elements"
+                CurrentPage="@_currentPage"
+                MultiSelection="true" 
+                ColumnResizeMode="ResizeMode.Column"
+                SortMode="SortMode.Multiple" 
+                Filterable="true" 
+                QuickFilter="@_quickFilter" 
+                Groupable="false"
+                Hover="@_hover"
+                Dense="@_dense" 
+                Striped="@_striped" 
+                Bordered="@_bordered" 
+                Hideable="true" 
+                RowClick="@RowClicked" 
+                RowContextMenuClick="RowRightClicked" 
+                SelectedItemsChanged="@SelectedItemsChanged">
+      <ToolBarContent>
+        <MudTextField @bind-Value="_searchString" Placeholder="Procurar" Adornment="Adornment.Start" Immediate="true"
+            AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent> 
+    <Columns>
+        @* <SelectColumn T="Despesa"  /> *@
+        @* <PropertyColumn Property="x => x.DespesaId" Title="Id" Sortable="false" Filterable="false" /> *@
+      
+        <PropertyColumn Property="x => x.Nome" SortBy="@_sortBy"  />
+        <PropertyColumn Property='x => (x.Ativo == true ? "Sim"  : "Não")' Title="Ativo" Sortable="true" />
+
+        <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" title="Ações" CellStyle=" text-align:center; background-color:#448AFF; color: black">
+            <CellTemplate >
+                <MudTooltip Text="Editar">              
+                    <MudFab Title="Editar" StartIcon="@Icons.Material.Filled.Edit" Size="@Size.Small" Color="Color.Tertiary" @onclick="(() => Editar(context.Item.DespesaId))" />
+                </MudTooltip>
+                <MudTooltip Text="Excluir">
+                    <MudFab Title="Excluir" StartIcon="@Icons.Material.Filled.Delete" Size="@Size.Small"  Color="Color.Secondary" @onclick="(() => Delete(context.Item.DespesaId))" />
+                </MudTooltip>
+                <MudTooltip Text="Detalhes">
+                    <MudFab Title="Detalhes" StartIcon="@Icons.Material.Filled.Details" Size="@Size.Small" Color="Color.Info" @onclick="(() => Details(context.Item.DespesaId))" />
+                </MudTooltip>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+
+    <PagerContent>
+        <MudPagination ShowFirstButton="true" ShowLastButton="true" ShowNextButton="false" ShowPreviousButton="false" SelectedChanged="PageChanged" 
+            Count="@((_grid!.GetFilteredItemsCount() + _grid.RowsPerPage - 1) / _grid.RowsPerPage)" Class="pa-4" />
+    </PagerContent>
+
+</MudDataGrid>
+
+
+@code {
+    string platformService = string.Empty;
+    string erro = string.Empty;
+
+    private MudDataGrid<Despesa>? _grid;
+    private int _currentPage = 0;
+
+    private bool _hover;
+    private bool _dense;
+    private bool _striped;
+    private bool _bordered;
+
+    IEnumerable<Despesa>? Elements ;
+    private string? _searchString;
+    private bool _sortNameByLength = false;
+    private List<string> _events = new();
+
+
+    private void Editar(int id)
+    {
+        NavigationManager.NavigateTo($"/despesas/edit?id={id}");
+    }
+
+    private void Delete(int id)
+    {
+        NavigationManager.NavigateTo($"/despesas/delete?id={id}");
+    }
+
+    private void Details(int id)
+    {
+        NavigationManager.NavigateTo($"/despesas/details?id={id}");
+    }
+
+   
+    private void PageChanged(int i)
+    {
+        _currentPage = i - 1;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+
+            await Task.Delay(300);
+
+            platformService = PlatformService.GetPlatform();
+
+            var list = await despesaRepositorio.GetDespesasAsync();
+            var queryable = list.AsEnumerable();
+
+            Elements = queryable;
+        }
+        catch (Exception e)
+        {
+
+            erro = e.Message;
+        }
+    }
+
+    //custom sort by name length
+    private Func<Despesa, object> _sortBy => x =>
+    {
+        if (_sortNameByLength)
+            return x.Nome.Length;
+        else
+            return x.Nome;
+    };
+
+    // quick filter - filter globally across multiple columns with the same input
+    private Func<Despesa, bool> _quickFilter => x =>
+       {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+
+
+        if (x.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+       };
+
+    // events
+    void RowClicked(DataGridRowClickEventArgs<Despesa> args)
+    {
+        _events.Insert(0, $"Event = RowClick, Index = {args.RowIndex}, Data = {JsonSerializer.Serialize(args.Item)}");
+    }
+
+    void RowRightClicked(DataGridRowClickEventArgs<Despesa> args)
+    {
+        _events.Insert(0, $"Event = RowRightClick, Index = {args.RowIndex}, Data = {JsonSerializer.Serialize(args.Item)}");
+    }
+
+    void SelectedItemsChanged(HashSet<Despesa> items)
+    {
+        _events.Insert(0, $"Event = SelectedItemsChanged, Data = {JsonSerializer.Serialize(items)}");
+    }
+
+}

@@ -30,15 +30,15 @@
 <MudPaper Class=" pa-8 d-flex flex-wrap gap-4  align-center justify-center" Outlined="true">
     <MudPaper Class="pa-2" Elevation="4">
         <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data Inicial"
-                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataInicial" PickerClosed="@SomaValor" Style="max-width: 200px;" />
+                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataInicial" PickerClosed="@SomaValorAPagar" Style="max-width: 200px;" />
     </MudPaper>
 
     <MudPaper Class="pa-2" Elevation="4">
         <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data Final"
-                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataFinal" PickerClosed="@SomaValor" Style="max-width: 200px;" />
+                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataFinal" PickerClosed="@SomaValorAPagar" Style="max-width: 200px;" />
     </MudPaper>
     <MudPaper Class="pa-2" Elevation="4">
-        <MudCheckBox @bind-Value="@isContaPaga" @bind-Value:after="SomaValor" Color="Color.Secondary" Label="Conta já paga" Style="max-width: 200px;" />
+        <MudCheckBox @bind-Value="@isContaPaga" @bind-Value:after="SomaValorAPagar" Color="Color.Secondary" Label="Conta já paga" Style="max-width: 200px;" />
     </MudPaper>
 
 </MudPaper>
@@ -68,12 +68,9 @@
                         AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" ></MudTextField>
     </ToolBarContent>
     
-    <Columns>
-        @* <SelectColumn T="Pagamento"  /> *@
-        @* <PropertyColumn Property="x => x.PagamentoId" Title="Id" Sortable="false" Filterable="false" /> *@
-      
+    <Columns>     
         <PropertyColumn Property="x => x.DataPagamento" Title="Data Pagamento" Format="dd/MM/yyyy" Sortable="true" />
-        <PropertyColumn Property="x => x.Fornecedor!.Nome" Title="Descrição" SortBy="@_sortBy"  Sortable="true" />
+        <PropertyColumn Property="x => x.Despesa!.Nome" Title="Descrição" SortBy="@_sortBy"  Sortable="true" />
         <PropertyColumn Property="x => x.ValorPagar" Title="Valor a Pagar" Sortable="true" Format="N2"/>
         <PropertyColumn Property='x => (x.EstaPago == true ? "Sim"  : "Não")' Title="Pago?" Sortable="true" />
 
@@ -104,7 +101,6 @@
     <MudPaper Class=" pa-4 ma-2 d-flex flex-column flex-grow-1 gap-4 align-center justify-center" Outlined="true" Square="true">
         <MudText Typo="Typo.h5" Color="Color.Info">Valor Total a Pagar </MudText>
         <MudText Typo="Typo.h6" Color="Color.Success">R$ @TotalValorPagar.ToString("N2")</MudText>
-
     </MudPaper>
 }
 
@@ -140,13 +136,11 @@
 
             platformService = PlatformService.GetPlatform();
 
-            var list = await pagamentoRepositorio.GetPagamentosComFornecedorAsync();
+            var list = await pagamentoRepositorio.GetPagamentosComDespesaAsync();
             Elements = list.AsEnumerable().Where(w => w.EstaPago == isContaPaga);
 
-            // Elements = queryable;
+            SomaValorAPagar();
 
-            SomaValor();
-            // TotalValorPagar = Elements.Sum(item => item.ValorPagar);
         }
         catch (Exception e)
         {
@@ -184,11 +178,11 @@
         else if(DataInicial != null || DataFinal != null)
         {
 
-            SomaValor();
+            SomaValorAPagar();
         }
     }
 
-    private void SomaValor()
+    private void SomaValorAPagar()
     {
         Elements = Elements!.Where(w => w.DataPagamento >= DataInicial && w.DataPagamento <= DataFinal && w.EstaPago == isContaPaga);
         TotalValorPagar = Elements.Sum(item => item.ValorPagar);
@@ -200,9 +194,9 @@
     private Func<Pagamento, object> _sortBy => x =>
     {
         if (_sortNameByLength)
-            return x.Fornecedor!.Nome.Length;
+            return x.Despesa!.Nome.Length;
         else
-            return x.Fornecedor!.Nome;
+            return x.Despesa!.Nome;
     };
 
     // quick filter - filter globally across multiple columns with the same input
@@ -212,9 +206,9 @@
                return true;
 
 
-           if (x.Fornecedor!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+           if (x.Despesa!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
            {
-               Elements = Elements!.Where(w => w.Fornecedor!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase) && w.EstaPago == isContaPaga);
+               Elements = Elements!.Where(w => w.Despesa!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase) && w.EstaPago == isContaPaga);
                TotalValorPagar = Elements.Sum(item => item.ValorPagar);
                return true;
            }

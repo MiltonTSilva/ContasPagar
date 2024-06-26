@@ -76,7 +76,7 @@ namespace RCLCP.Services
             return retorno;
         }
 
-        public async Task<List<Pagamento>> GetPagamentosComFornecedorAsync()
+        public async Task<List<Pagamento>> GetPagamentosComDespesaAsync()
         {
             List<Pagamento> retorno = [];
             if (_dbConnection != null)
@@ -84,19 +84,19 @@ namespace RCLCP.Services
                 retorno = await _dbConnection.Table<Pagamento>().ToListAsync();
                 foreach (var pagamento in retorno)
                 {
-                    pagamento.Fornecedor = await _dbConnection.FindAsync<Fornecedor>(pagamento.FornecedorId);
+                    pagamento.Despesa = await _dbConnection.FindAsync<Despesa>(pagamento.DespesaId);
                 }
             }
             return retorno;
         }
 
-        public async Task<Pagamento> GetPagamentoComFornecedorAsync(int id)
+        public async Task<Pagamento> GetPagamentoComDespesaAsync(int id)
         {
             Pagamento retorno = new();
             if (_dbConnection != null)
             {
                 retorno = await _dbConnection.Table<Pagamento>().FirstOrDefaultAsync(c => c.PagamentoId == id);
-                retorno.Fornecedor = await _dbConnection.FindAsync<Fornecedor>(retorno.FornecedorId);
+                retorno.Despesa = await _dbConnection.FindAsync<Despesa>(retorno.DespesaId);
 
             }
             return retorno;

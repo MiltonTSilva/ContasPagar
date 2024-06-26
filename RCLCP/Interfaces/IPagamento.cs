@@ -10,8 +10,8 @@ namespace RCLCP.Interfaces
         Task<bool> AddPagamentoAsync(Pagamento? pagamento);
         Task<bool> UpdatePagamentoAsync(Pagamento? pagamento);
         Task<bool> DeletePagamentoAsync(Pagamento? pagamento);
-        Task<List<Pagamento>> GetPagamentosComFornecedorAsync();
-        Task<Pagamento> GetPagamentoComFornecedorAsync(int id);
+        Task<List<Pagamento>> GetPagamentosComDespesaAsync();
+        Task<Pagamento> GetPagamentoComDespesaAsync(int id);
 
     }
 }

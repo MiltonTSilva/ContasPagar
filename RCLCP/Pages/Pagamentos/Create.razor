@@ -18,14 +18,14 @@
                            TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataPagamento" Required="true" PickerClosed="SelecaoPorPeriodo" />
             <ValidationMessage For="() => pagamento.DataPagamento" RequiredError="Data de pagamento é obrigatório." />
             
-                <MudSelect T="int" @bind-Value="pagamento.FornecedorId" Label="Fornecedor" Placeholder="Selecione um fornecedor" Immediate="true" Required="true">
+                <MudSelect T="int" @bind-Value="pagamento.DespesaId" Label="Despesa" Placeholder="Selecione uma despesa" Immediate="true" Required="true">
                 <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
-                @foreach (var tipo in lstFornecedor)
+                @foreach (var tipo in lstDespesa)
                 {
-                    <MudSelectItem T="int" Value="tipo.FornecedorId">@tipo.Nome</MudSelectItem>
+                    <MudSelectItem T="int" Value="tipo.DespesaId">@tipo.Nome</MudSelectItem>
                 }
             </MudSelect>
-            <ValidationMessage For="() => pagamento.FornecedorId" RequiredError="O fornecedor é obrigatório." />
+            <ValidationMessage For="() => pagamento.DespesaId" RequiredError="A despesa é obrigatória." />
 
             <MudNumericField @bind-Value="pagamento.ValorPagar" Label="Valor a pagar" Immediate="false" Format="N2" Culture="@_ptBr" Required="true" />
             <ValidationMessage For="() => pagamento.ValorPagar" RequiredError="O Valor a pagar é obrigatório." />
@@ -55,7 +55,7 @@
 
     private Pagamento pagamento = new Pagamento();
 
-    private List<Fornecedor> lstFornecedor = new List<Fornecedor>();
+    private List<Despesa> lstDespesa = new List<Despesa>();
 
     public CultureInfo _ptBr = CultureInfo.GetCultureInfo("pt-BR");
 
@@ -68,13 +68,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetFornecedor();
-        pagamento.FornecedorId = 0;
+        await GetDespesa();
+        pagamento.DespesaId = 0;
     }
 
-    private async Task GetFornecedor()
+    private async Task GetDespesa()
     {
-        lstFornecedor = await fornecedorRepositorio.GetFornecedoresAsync();
+        lstDespesa = await despesaRepositorio.GetDespesasAsync();
     }
 
 
@@ -87,23 +87,25 @@
 
         bool isValid = Validator.TryValidateObject(pagamento, contexto, resultados, true);
 
-        if (pagamento.FornecedorId <= 0) 
+        if (pagamento.DespesaId <= 0) 
         {
             isValid = false;
         }
 
         if (isValid)
         {
+            await pagamentoRepositorio.AddPagamentoAsync(pagamento);
+
             if (isPagamentoRecorrente)
             {
                 
-                for (int i = 1; i <= quantidadeRecorrencia; i++)
-                {                  
-                    await pagamentoRepositorio.AddPagamentoAsync(pagamento);
-
+                for (int i = 2; i <= quantidadeRecorrencia; i++)
+                {                                    
                     newDate = pagamento.DataPagamento!.Value.AddMonths(1);
 
                     pagamento.DataPagamento = newDate;
+
+                    await pagamentoRepositorio.AddPagamentoAsync(pagamento);
                 }
             }           
         }

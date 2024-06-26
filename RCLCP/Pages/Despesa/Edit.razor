@@ -1,31 +1,31 @@
-﻿@page "/fornecedores/edit"
+﻿@page "/despesas/edit"
 
-<PageTitle>Atualizar Fornecedor</PageTitle>
+<PageTitle>Atualizar Despesa</PageTitle>
 
-<h1>Atualizar Fornecedor</h1>
+<h1>Atualizar Despesa</h1>
 
 <hr />
-@if (fornecedor is null)
+@if (despesa is null)
 {
     <p><em>Carregando...</em></p>
 }
 else
 {
-    <EditForm Model="fornecedor" OnValidSubmit="UpdateFornecedor">
+    <EditForm Model="despesa" OnValidSubmit="UpdateDespesa">
         <DataAnnotationsValidator />
         <ValidationSummary />
         <MudCard>
             <MudCardContent>
-                <MudTextField @bind-Value="fornecedor.Nome" Label="Nome" Required="true" />
+                <MudTextField @bind-Value="despesa.Nome" Label="Nome" Required="true" />
                 <MudText>Ativo</MudText>
-                <MudRadioGroup @bind-Value="fornecedor.Ativo">
+                <MudRadioGroup @bind-Value="despesa.Ativo">
                     <MudRadio Value="true" Color="Color.Primary" Dense="true">Sim</MudRadio>
                     <MudRadio Value="false" Color="Color.Secondary" Dense="false">Não</MudRadio>
                 </MudRadioGroup>
             </MudCardContent>
             <MudCardActions>
                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Salvar</MudButton>
-                <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexFornecedor" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+                <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexDespesa" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
             </MudCardActions>
         </MudCard>
     </EditForm>
@@ -39,29 +39,28 @@ else
     public int id { get; set; }
 
     [SupplyParameterFromForm]
-    public Fornecedor? fornecedor { get; set; }
+    public Despesa? despesa { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
        
-
-        if (!await FornecedorExists(id))
+        if (!await DespesaExists(id))
         {
             NavigationManager.NavigateTo("notfound");
         }
     }
 
 
-    public async Task UpdateFornecedor()
+    public async Task UpdateDespesa()
     {
 
         try
         {
-            await fornecedorRepositorio.UpdateFornecedorAsync(fornecedor);
+            await despesaRepositorio.UpdateDespesaAsync(despesa);
         }
         catch (Exception)
         {
-            if (await FornecedorExists(id))
+            if (await DespesaExists(id))
             {
                 NavigationManager.NavigateTo("notfound");
             }
@@ -71,14 +70,14 @@ else
             }
         }
 
-        NavigationManager.NavigateTo("/fornecedores");
+        NavigationManager.NavigateTo("/despesas");
     }
 
-    private async Task<bool> FornecedorExists(int id)
+    private async Task<bool> DespesaExists(int id)
     {
-        fornecedor ??= await fornecedorRepositorio.GetFornecedorAsync(id);
+        despesa ??= await despesaRepositorio.GetDespesaAsync(id);
 
-        if (fornecedor is null)
+        if (despesa is null)
         {
             NavigationManager.NavigateTo("notfound");
            
@@ -86,8 +85,8 @@ else
         return true;
     }
 
-    public void NavigateToIndexFornecedor()
+    public void NavigateToIndexDespesa()
     {
-        NavigationManager.NavigateTo("/fornecedores");
+        NavigationManager.NavigateTo("/despesas");
     }
 }

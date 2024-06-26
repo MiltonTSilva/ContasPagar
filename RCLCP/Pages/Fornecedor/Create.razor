@@ -14,6 +14,7 @@
             <MudTextField @bind-Value="fornecedor.Nome" Label="Nome" Immediate="true" Required="true"  />
             <ValidationMessage For="() => fornecedor.Nome" RequiredError="O nome é obrigatório." />
 
+            <MudText>Ativo</MudText>
             <MudRadioGroup @bind-Value="fornecedor.Ativo">
                 <MudRadio Value="true" Color="Color.Primary" Dense="true">Sim</MudRadio>
                 <MudRadio Value="false" Color="Color.Secondary" Dense="false">Não</MudRadio>

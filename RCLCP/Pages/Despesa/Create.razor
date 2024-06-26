@@ -1,0 +1,68 @@
+﻿@page "/despesas/create"
+
+<PageTitle>Novo Despesa</PageTitle>
+
+<h1>Novo Despesa</h1>
+
+<hr />
+
+<EditForm Model="despesa" OnValidSubmit="AddDespesa">
+    <DataAnnotationsValidator />
+    @* <ValidationSummary /> *@
+    <MudCard>
+        <MudCardContent>
+            <MudTextField @bind-Value="despesa.Nome" Label="Nome" Immediate="true" Required="true"  />
+            <ValidationMessage For="() => despesa.Nome" RequiredError="O nome é obrigatório." />
+
+            <MudText>Ativo</MudText>
+            <MudRadioGroup @bind-Value="despesa.Ativo">
+                <MudRadio Value="true" Color="Color.Primary" Dense="true">Sim</MudRadio>
+                <MudRadio Value="false" Color="Color.Secondary" Dense="false">Não</MudRadio>
+            </MudRadioGroup>
+
+            <ValidationMessage For="() => despesa.Ativo" RequiredError="campo obrigatório." />   
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" >Salvar</MudButton>
+            <MudButton  ButtonType="ButtonType.Button" OnClick="NavigateToIndexDespesa" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+        </MudCardActions>
+    </MudCard>
+</EditForm>
+
+@code {
+
+    private Despesa despesa = new Despesa();
+   
+
+
+    // protected override async Task OnInitializedAsync()
+    // {
+
+    // }
+
+    
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddDespesa()
+    {
+
+        var contexto = new ValidationContext(despesa, null, null);
+        var resultados = new List<ValidationResult>();
+
+        bool isValid = Validator.TryValidateObject(despesa, contexto, resultados, true);
+
+
+        if (isValid)
+        {
+            await despesaRepositorio.AddDespesaAsync(despesa);          
+        }
+
+        NavigationManager.NavigateTo("/despesas");
+   
+    }
+
+    public void  NavigateToIndexDespesa()
+    {
+        NavigationManager.NavigateTo("/despesas");
+    }
+
+}

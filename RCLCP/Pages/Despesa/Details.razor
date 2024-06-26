@@ -1,0 +1,53 @@
+﻿@page "/despesas/details"
+
+<PageTitle>Detalhes da Despesa</PageTitle>
+
+<h1>Detalhes da Despesa</h1>
+<hr />
+
+<div>
+    @if (Despesa is null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else {
+
+        <EditForm Model="Despesa">
+            <MudCard>
+                <MudCardContent>
+                    <MudText>Nome: @Despesa.Nome</MudText>
+                    <MudDivider />
+                    <MudText>Ativo: @(@Despesa.Ativo == true ? "Sim"  : "Não")</MudText>
+                    <MudDivider />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton HRef="@($"/despesas/edit?id={Despesa.DespesaId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton> 
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexDespesa" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    }
+</div>
+
+@code {
+    Despesa? Despesa;
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        Despesa = await despesaRepositorio.GetDespesaAsync(id);
+
+        if (Despesa is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public void NavigateToIndexDespesa()
+    {
+        NavigationManager.NavigateTo("/despesas");
+    }
+}

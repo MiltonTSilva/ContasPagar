@@ -1,0 +1,61 @@
+﻿@page "/despesas/delete"
+
+
+<PageTitle>Excluir</PageTitle>
+
+<h1>Excluir Despesa</h1>
+
+<h3>Tem certeza que deseja excluir?</h3>
+<div>
+    
+    <hr />
+    @if (Despesa is null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else {
+        <EditForm method="post" Model="Despesa" OnValidSubmit="DeleteDespesa" FormNome="delete" Enhance>
+            <MudCard>
+                <MudCardContent>
+                    <MudText>Nome: @Despesa.Nome</MudText>
+                    <MudText>Ativo: @(@Despesa.Ativo == true ? "Sim"  : "Não")</MudText>
+
+                </MudCardContent>
+                <MudCardActions Class="pa-8 d-flex flex-wrap gap-4 justify-space-between" Outlined="true">
+                    <MudButton HRef="@($"/despesas/edit?id={Despesa.DespesaId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Style="width:110px">Editar</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Style="width:110px">Excluir</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexDespesa" Variant="Variant.Outlined" Color="Color.Secondary" Style="width:110px">Retornar</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+            }
+</div>
+
+@code {
+
+    Despesa? Despesa;
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Despesa = await despesaRepositorio.GetDespesaAsync(id);
+
+        if (Despesa is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public async Task DeleteDespesa()
+    {
+        await despesaRepositorio.DeleteDespesaAsync(Despesa);
+        NavigationManager.NavigateTo("/despesas");
+    }
+
+    public void NavigateToIndexDespesa()
+    {
+        NavigationManager.NavigateTo("/despesas");
+    }
+}

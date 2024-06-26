@@ -24,14 +24,14 @@ else
                 <ValidationMessage For="() => pagamento.ValorPagar" RequiredError="O Valor a pagar é obrigatório." />
                 <MudNumericField @bind-Value="pagamento.ValorPago" Label="Valor Pago" Immediate="false" Format="N2" Culture="@_ptBr"  />
 
-                <MudSelect T="int" Label="Fornecedor" @bind-Value="pagamento.FornecedorId" Required="true">
+                <MudSelect T="int" Label="Despesa" @bind-Value="pagamento.DespesaId" Required="true">
                     <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
-                    @foreach (var tipo in lstFornecedor)
+                    @foreach (var tipo in lstDespesa)
                     {
-                        <MudSelectItem T="int" Value="tipo.FornecedorId">@tipo.Nome</MudSelectItem>
+                        <MudSelectItem T="int" Value="tipo.DespesaId">@tipo.Nome</MudSelectItem>
                     }
                 </MudSelect>
-                <ValidationMessage For="() => pagamento.FornecedorId" RequiredError="O fornecedor é obrigatório." />
+                <ValidationMessage For="() => pagamento.DespesaId" RequiredError="O fornecedor é obrigatório." />
 
                 <MudText>Débito Automático?</MudText>
                 <MudRadioGroup @bind-Value="pagamento.DebitoAutomatico">
@@ -55,7 +55,7 @@ else
 @code {
 
     public CultureInfo _ptBr = CultureInfo.GetCultureInfo("pt-BR");
-    private List<Fornecedor> lstFornecedor = new List<Fornecedor>();
+    private List<Despesa> lstDespesa = new List<Despesa>();
 
     [SupplyParameterFromQuery]
     public int id { get; set; }
@@ -65,7 +65,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await GetFornecedor();
+        await GetDespesa();
 
         if (!await PagamentoExists(id))
         {
@@ -80,9 +80,9 @@ else
             pagamento.DataPagamento = DateTime.Today.AddDays(1);
         }
     }
-    public async Task GetFornecedor()
+    public async Task GetDespesa()
     {
-        lstFornecedor = await fornecedorRepositorio.GetFornecedoresAsync();
+        lstDespesa = await despesaRepositorio.GetDespesasAsync();
     }
 
     public async Task UpdatePagamento()
