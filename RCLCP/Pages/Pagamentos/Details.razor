@@ -16,12 +16,17 @@
             <MudCard>
                 <MudCardContent>
                     <MudText><b>Data Pagamento: </b>@Pagamento.DataPagamento?.ToString("dd/MM/yyyy")</MudText>
+                    <MudDivider />
                     <MudText><b>Fornecedor: </b>@Pagamento.Fornecedor!.Nome</MudText>
+                    <MudDivider />
                     <MudText><b>Valor Pagar: </b>@Pagamento.ValorPagar.ToString("N2")</MudText>
+                    <MudDivider />
                     <MudText><b>Valor Pago: </b>@Pagamento.ValorPago.ToString("N2")</MudText>
+                    <MudDivider />
                     <MudText><b>Débito Automático?: </b>@(@Pagamento.DebitoAutomatico == true ? "Sim" : "Não")</MudText>
+                    <MudDivider />
                     <MudText><b>Conta já foi paga?: </b>@(@Pagamento.EstaPago == true ? "Sim" : "Não")</MudText>
-
+                    <MudDivider />
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton HRef="@($"/pagamentos/edit?id={Pagamento.PagamentoId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton> 

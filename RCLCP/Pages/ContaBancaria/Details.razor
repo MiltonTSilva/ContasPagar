@@ -16,8 +16,9 @@
             <MudCard>
                 <MudCardContent>
                     <MudText>Nome: @ContaBancaria.Nome</MudText>
+                    <MudDivider />
                     <MudText>Ativo: @(@ContaBancaria.Ativo == true ? "Sim"  : "Não")</MudText>
- 
+                    <MudDivider />
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton HRef="@($"/contasbancarias/edit?id={ContaBancaria.ContaBancariaId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton> 

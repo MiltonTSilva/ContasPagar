@@ -16,8 +16,9 @@
             <MudCard>
                 <MudCardContent>
                     <MudText>Nome: @Fornecedor.Nome</MudText>
+                    <MudDivider />
                     <MudText>Ativo: @(@Fornecedor.Ativo == true ? "Sim"  : "Não")</MudText>
- 
+                    <MudDivider />
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton HRef="@($"/fornecedores/edit?id={Fornecedor.FornecedorId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton> 
