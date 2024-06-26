@@ -21,12 +21,10 @@
                     <MudText>Ativo: @(@Fornecedor.Ativo == true ? "Sim"  : "Não")</MudText>
 
                 </MudCardContent>
-                <MudCardActions>
-                    <MudButton HRef="@($"/fornecedores/edit?id={Fornecedor.FornecedorId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton>
-                    <MudSpacer />
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary">Excluir</MudButton>
-                    <MudSpacer />
-                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexFornecedor" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+                <MudCardActions Class="pa-8 d-flex flex-wrap gap-4 justify-space-between" Outlined="true">
+                    <MudButton HRef="@($"/fornecedores/edit?id={Fornecedor.FornecedorId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Style="width:110px">Editar</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Style="width:110px">Excluir</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexFornecedor" Variant="Variant.Outlined" Color="Color.Secondary" Style="width:110px">Retornar</MudButton>
                 </MudCardActions>
             </MudCard>
         </EditForm>

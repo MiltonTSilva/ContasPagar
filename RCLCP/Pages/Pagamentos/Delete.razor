@@ -17,16 +17,14 @@
         <EditForm method="post" Model="Pagamento" OnValidSubmit="DeletePagamento" FormNome="delete" Enhance>
             <MudCard>
                 <MudCardContent>
-                    <MudText>Data Pagamento: @Pagamento.DataPagamento</MudText>
+                    <MudText>Data Pagamento: @Pagamento.DataPagamento?.ToString("dd/MM/yyyy")</MudText>
                     <MudText>Fornecedor: @Pagamento.Fornecedor!.Nome</MudText>
-                    <MudText>Valor Pagar: @Pagamento.ValorPagar.ToString("N2")</MudText>
+                    <MudText>Valor a Pagar: @Pagamento.ValorPagar.ToString("N2")</MudText>
                 </MudCardContent>
-                <MudCardActions>
-                    <MudButton HRef="@($"/pagamentos/edit?id={Pagamento.PagamentoId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton>
-                    <MudSpacer />
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary">Excluir</MudButton>
-                    <MudSpacer />
-                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexPagamento" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+                <MudCardActions Class="pa-8 d-flex flex-wrap gap-4 justify-space-between" Outlined="true">
+                        <MudButton ButtonType="ButtonType.Button"  HRef="@($"/pagamentos/edit?id={Pagamento.PagamentoId}")" Variant="Variant.Filled" Color="Color.Primary" Style="width:110px">Editar</MudButton>            
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Style="width:110px">Excluir</MudButton>              
+                        <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexPagamento" Variant="Variant.Outlined" Color="Color.Secondary"  Style="width:110px">Retornar</MudButton>  
                 </MudCardActions>
             </MudCard>
         </EditForm>
