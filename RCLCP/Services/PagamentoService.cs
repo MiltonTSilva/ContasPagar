@@ -84,7 +84,7 @@ namespace RCLCP.Services
                 retorno = await _dbConnection.Table<Pagamento>().ToListAsync();
                 foreach (var pagamento in retorno)
                 {
-                    pagamento.Usuario = await _dbConnection.FindAsync<Usuario>(pagamento.UsuarioId);
+                    pagamento.Usuario = await _dbConnection.FindAsync<Usuario>(pagamento.UsuarioPaganteId);
                     pagamento.Despesa = await _dbConnection.FindAsync<Despesa>(pagamento.DespesaId);
                 }
             }
@@ -111,7 +111,7 @@ namespace RCLCP.Services
                 retorno = await _dbConnection.Table<Pagamento>().ToListAsync();
                 foreach (var pagamento in retorno)
                 {
-                    pagamento.Usuario = await _dbConnection.FindAsync<Usuario>(pagamento.UsuarioId);
+                    pagamento.Usuario = await _dbConnection.FindAsync<Usuario>(pagamento.UsuarioPaganteId);
                 }
             }
             return retorno;
@@ -123,7 +123,7 @@ namespace RCLCP.Services
             if (_dbConnection != null)
             {
                 retorno = await _dbConnection.Table<Pagamento>().FirstOrDefaultAsync(c => c.PagamentoId == id);
-                retorno.Usuario = await _dbConnection.FindAsync<Usuario>(retorno.UsuarioId);
+                retorno.Usuario = await _dbConnection.FindAsync<Usuario>(retorno.UsuarioPaganteId);
 
             }
             return retorno;

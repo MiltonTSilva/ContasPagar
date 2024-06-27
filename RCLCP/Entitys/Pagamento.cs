@@ -28,10 +28,12 @@ namespace RCLCP.Entitys
 
         [Required(ErrorMessage = "Pagante é obrigatório.")]
         [Range(1, int.MaxValue, ErrorMessage = "Por favor, selecione um pagante válido.")]
-        public int UsuarioId { get; set; }
+        public int UsuarioPaganteId { get; set; }
 
         [Ignore]
         public Despesa? Despesa { get; set; }
+
+        [Ignore]
         public Usuario? Usuario { get; set; }
     }
 }

@@ -23,14 +23,14 @@ else
                 </MudField>
 
                 <MudField Label="Pagante" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
-                    <MudSelect T="int" @bind-Value="pagamento.UsuarioId"  Placeholder="Selecione um pagante" Immediate="true" Required="true">
+                    <MudSelect T="int" @bind-Value="pagamento.UsuarioPaganteId" Placeholder="Selecione um pagante" Immediate="true" Required="true">
                         <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
                         @foreach (var usuario in lstUsuariosPagantes)
                         {
                             <MudSelectItem T="int" Value="usuario.UsuarioId">@usuario.Nome</MudSelectItem>
                         }
                     </MudSelect>
-                    <ValidationMessage For="() => pagamento.UsuarioId" RequiredError="Pagante é obrigatório." />
+                    <ValidationMessage For="() => pagamento.UsuarioPaganteId" RequiredError="Pagante é obrigatório." />
                 </MudField>
 
                 <MudField Label="Despesa" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
