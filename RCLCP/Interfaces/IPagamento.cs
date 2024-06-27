@@ -12,6 +12,8 @@ namespace RCLCP.Interfaces
         Task<bool> DeletePagamentoAsync(Pagamento? pagamento);
         Task<List<Pagamento>> GetPagamentosComDespesaAsync();
         Task<Pagamento> GetPagamentoComDespesaAsync(int id);
+        Task<List<Pagamento>> GetPagamentosComUsuariosPagantesAsync();
+        Task<Pagamento> GetPagamentoComUsuarioPaganteAsync(int id);
 
     }
 }

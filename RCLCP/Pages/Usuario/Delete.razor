@@ -1,0 +1,71 @@
+﻿@page "/usuarios/delete"
+
+
+<PageTitle>Excluir</PageTitle>
+
+<h1>Excluir Usuario</h1>
+
+<h3>Tem certeza que deseja excluir?</h3>
+<div>
+    
+    <hr />
+    @if (Usuario is null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else {
+        <EditForm method="post" Model="Usuario" OnValidSubmit="DeleteUsuario" FormNome="delete" Enhance>
+            <MudCard>
+                <MudCardContent>
+                    <MudField Label="Nome" Variant="Variant.Outlined">
+                        @Usuario.Nome
+                    </MudField>
+                    <MudField Label="E-mail" Variant="Variant.Outlined">
+                        @Usuario.Email
+                    </MudField>
+                    <MudField Label="Celular" Variant="Variant.Outlined">
+                        @Usuario.Celular
+                    </MudField>
+                    <MudField Label="Ativo" Variant="Variant.Outlined">
+                        @(@Usuario.Ativo == true ? "Sim" : "Não")
+                    </MudField>
+
+                </MudCardContent>
+                <MudCardActions Class="pa-8 d-flex flex-wrap gap-4 justify-space-between" Outlined="true">
+                    <MudButton HRef="@($"/usuarios/edit?id={Usuario.UsuarioId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Style="width:110px">Editar</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Style="width:110px">Excluir</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexUsuario" Variant="Variant.Outlined" Color="Color.Secondary" Style="width:110px">Retornar</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+            }
+</div>
+
+@code {
+
+    Usuario? Usuario;
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Usuario = await usuarioRepositorio.GetUsuarioAsync(id);
+
+        if (Usuario is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public async Task DeleteUsuario()
+    {
+        await usuarioRepositorio.DeleteUsuarioAsync(Usuario);
+        NavigationManager.NavigateTo("/usuarios");
+    }
+
+    public void NavigateToIndexUsuario()
+    {
+        NavigationManager.NavigateTo("/usuarios");
+    }
+}

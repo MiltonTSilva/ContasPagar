@@ -1,0 +1,61 @@
+﻿@page "/usuarios/details"
+
+<PageTitle>Detalhes da Usuario</PageTitle>
+
+<h1>Detalhes da Usuario</h1>
+<hr />
+
+<div>
+    @if (Usuario is null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else {
+
+        <EditForm Model="Usuario">
+            <MudCard>
+                <MudCardContent>
+                    <MudField Label="Nome" Variant="Variant.Outlined">
+                       @Usuario.Nome
+                    </MudField>
+                    <MudField Label="E-mail" Variant="Variant.Outlined">
+                        @Usuario.Email
+                    </MudField>
+                    <MudField Label="Celular" Variant="Variant.Outlined">
+                        @Usuario.Celular
+                    </MudField>
+                    <MudField Label="Ativo" Variant="Variant.Outlined">
+                        @(@Usuario.Ativo == true ? "Sim" : "Não")
+                    </MudField>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton HRef="@($"/usuarios/edit?id={Usuario.UsuarioId}")" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">Editar</MudButton> 
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexUsuario" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+    }
+</div>
+
+@code {
+    Usuario? Usuario;
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        Usuario = await usuarioRepositorio.GetUsuarioAsync(id);
+
+        if (Usuario is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public void NavigateToIndexUsuario()
+    {
+        NavigationManager.NavigateTo("/usuarios");
+    }
+}

@@ -69,9 +69,10 @@
     </ToolBarContent>
     
     <Columns>     
-        <PropertyColumn Property="x => x.DataPagamento" Title="Data Pagamento" Format="dd/MM/yyyy" Sortable="true" />
-        <PropertyColumn Property="x => x.Despesa!.Nome" Title="Descrição" SortBy="@_sortBy"  Sortable="true" />
+        <PropertyColumn Property="x => x.DataPagamento" Title="Data Pagamento" Format="dd/MM/yyyy" Sortable="true" />       
+        <PropertyColumn Property="x => x.Despesa!.Nome" Title="Despesa" SortBy="@_sortBy"  Sortable="true" />
         <PropertyColumn Property="x => x.ValorPagar" Title="Valor a Pagar" Sortable="true" Format="N2"/>
+        <PropertyColumn Property="x => x.Usuario!.Nome" Title="Pagante" SortBy="@_sortBy" Sortable="true" />
         <PropertyColumn Property='x => (x.EstaPago == true ? "Sim"  : "Não")' Title="Pago?" Sortable="true" />
 
         <TemplateColumn StickyRight="true" Filterable="false" Sortable="false" title="Ações" CellStyle=" text-align:center; background-color:#448AFF; color: black">
@@ -122,7 +123,7 @@
     IEnumerable<Pagamento>? Elements ;
     private string? _searchString;
     private bool _sortNameByLength = false;
-    private List<string> _events = new();
+    private List<string> _events = [];
 
     private decimal TotalValorPagar = 0;
     DateTime? DataInicial = new DateTime(DateTime.Today.Year, DateTime.Today.Month,1);
@@ -187,14 +188,15 @@
         Elements = Elements!.Where(w => w.DataPagamento >= DataInicial && w.DataPagamento <= DataFinal && w.EstaPago == isContaPaga);
         TotalValorPagar = Elements.Sum(item => item.ValorPagar);
     }
-
-   
+ 
 
     //custom sort by name length
     private Func<Pagamento, object> _sortBy => x =>
     {
         if (_sortNameByLength)
             return x.Despesa!.Nome.Length;
+        else if (_sortNameByLength)
+            return x.Usuario!.Nome.Length;
         else
             return x.Despesa!.Nome;
     };

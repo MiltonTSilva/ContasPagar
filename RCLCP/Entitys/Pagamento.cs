@@ -9,8 +9,8 @@ namespace RCLCP.Entitys
         [PrimaryKey, AutoIncrement]
         public int PagamentoId { get; set; }
 
-        [Required(ErrorMessage = "Fornecedor é obrigatório.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Por favor, selecione um fornecedor válido")]
+        [Required(ErrorMessage = "Despesa é obrigatório.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Por favor, selecione uma despesa válida.")]
         public int DespesaId { get; set; }
 
         [Required(ErrorMessage = "Data de pagamento é obrigatório.")]
@@ -27,9 +27,11 @@ namespace RCLCP.Entitys
         public bool EstaPago { get; set; }
 
         [Required(ErrorMessage = "Pagante é obrigatório.")]
-        public int PaganteId { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Por favor, selecione um pagante válido.")]
+        public int UsuarioId { get; set; }
 
         [Ignore]
         public Despesa? Despesa { get; set; }
+        public Usuario? Usuario { get; set; }
     }
 }

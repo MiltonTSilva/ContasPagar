@@ -16,33 +16,54 @@ else
         @* <ValidationSummary /> *@
         <MudCard>
             <MudCardContent>
-                <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data de Pagamento" DisplayMonths="2"
-                               TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataPagamento" Required="true" PickerClosed="SelecaoPorPeriodo" />
-                <ValidationMessage For="() => pagamento.DataPagamento" RequiredError="Data de pagamento é obrigatório." />
+                <MudField Label="Data de Pagamento" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                    <MudDatePicker PickerVariant="PickerVariant.Dialog"  DisplayMonths="2"
+                                   TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataPagamento" Required="true" PickerClosed="SelecaoPorPeriodo" />
+                    <ValidationMessage For="() => pagamento.DataPagamento" RequiredError="Data de pagamento é obrigatório." />
+                </MudField>
 
-                <MudNumericField @bind-Value="pagamento.ValorPagar" Label="Valor a pagar" Immediate="false" Format="N2" Culture="@_ptBr" Required="true" />
+                <MudField Label="Pagante" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                    <MudSelect T="int" @bind-Value="pagamento.UsuarioId"  Placeholder="Selecione um pagante" Immediate="true" Required="true">
+                        <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
+                        @foreach (var usuario in lstUsuariosPagantes)
+                        {
+                            <MudSelectItem T="int" Value="usuario.UsuarioId">@usuario.Nome</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <ValidationMessage For="() => pagamento.UsuarioId" RequiredError="Pagante é obrigatório." />
+                </MudField>
+
+                <MudField Label="Despesa" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                    <MudSelect T="int" @bind-Value="pagamento.DespesaId"  Placeholder="Selecione uma despesa" Immediate="true" Required="true">
+                        <MudSelectItem T="int" Value="0" Variant="Variant.Outlined">Selecione Opção</MudSelectItem>
+                        @foreach (var despesa in lstDespesas)
+                        {
+                            <MudSelectItem T="int" Value="despesa.DespesaId">@despesa.Nome</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <ValidationMessage For="() => pagamento.DespesaId" RequiredError="A despesa é obrigatória." />
+                </MudField>
+
+                <MudNumericField @bind-Value="pagamento.ValorPagar" Label="Valor a pagar" Immediate="false" Format="N2" Culture="@_ptBr" Variant="Variant.Outlined" Required="true" />
                 <ValidationMessage For="() => pagamento.ValorPagar" RequiredError="O Valor a pagar é obrigatório." />
-                <MudNumericField @bind-Value="pagamento.ValorPago" Label="Valor Pago" Immediate="false" Format="N2" Culture="@_ptBr"  />
 
-                <MudSelect T="int" Label="Despesa" @bind-Value="pagamento.DespesaId" Required="true">
-                    <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
-                    @foreach (var tipo in lstDespesa)
-                    {
-                        <MudSelectItem T="int" Value="tipo.DespesaId">@tipo.Nome</MudSelectItem>
-                    }
-                </MudSelect>
-                <ValidationMessage For="() => pagamento.DespesaId" RequiredError="O fornecedor é obrigatório." />
+                <MudNumericField @bind-Value="pagamento.ValorPago" Label="Valor Pago" Immediate="false" Format="N2" Culture="@_ptBr" Variant="Variant.Outlined" />
 
-                <MudText>Débito Automático?</MudText>
-                <MudRadioGroup @bind-Value="pagamento.DebitoAutomatico">
-                    <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
-                    <MudRadio Value="false" Color="Color.Secondary" Dense="true">Não</MudRadio>
-                </MudRadioGroup>
-                <MudText>Conta paga?</MudText>
-                <MudRadioGroup @bind-Value="pagamento.EstaPago">
-                    <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
-                    <MudRadio Value="false" Color="Color.Secondary" Dense="true">Não</MudRadio>
-                </MudRadioGroup>
+                <MudField label="Débito Automático?" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                    <MudRadioGroup @bind-Value="pagamento.DebitoAutomatico">
+                        <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
+                        <MudRadio Value="false" Color="Color.Secondary" Dense="true">Não</MudRadio>
+                    </MudRadioGroup>
+                </MudField>
+
+                <MudField Label="Conta paga?" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                    <MudRadioGroup @bind-Value="pagamento.EstaPago">
+                        <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
+                        <MudRadio Value="false" Color="Color.Secondary" Dense="true">Não</MudRadio>
+                    </MudRadioGroup>
+                </MudField>
+
+               
             </MudCardContent>
             <MudCardActions>
                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Salvar</MudButton>
@@ -55,7 +76,10 @@ else
 @code {
 
     public CultureInfo _ptBr = CultureInfo.GetCultureInfo("pt-BR");
-    private List<Despesa> lstDespesa = new List<Despesa>();
+
+    private List<Usuario> lstUsuariosPagantes = [];
+    private List<Despesa> lstDespesas = [];
+
 
     [SupplyParameterFromQuery]
     public int id { get; set; }
@@ -65,7 +89,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await GetDespesa();
+        await GetUsuariosPagantes();
+        await GetDespesas();
 
         if (!await PagamentoExists(id))
         {
@@ -80,9 +105,15 @@ else
             pagamento.DataPagamento = DateTime.Today.AddDays(1);
         }
     }
-    public async Task GetDespesa()
+
+    private async Task GetUsuariosPagantes()
     {
-        lstDespesa = await despesaRepositorio.GetDespesasAsync();
+        lstUsuariosPagantes = await usuarioRepositorio.GetUsuariosAsync();
+    }
+
+    public async Task GetDespesas()
+    {
+        lstDespesas = await despesaRepositorio.GetDespesasAsync();
     }
 
     public async Task UpdatePagamento()
@@ -93,8 +124,9 @@ else
             if (pagamento!.EstaPago == true && pagamento.ValorPago == 0) pagamento.ValorPago = pagamento.ValorPagar;
             await pagamentoRepositorio.UpdatePagamentoAsync(pagamento);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
             if (await PagamentoExists(id))
             {
                 NavigationManager.NavigateTo("notfound");

@@ -14,34 +14,52 @@
     <MudCard>
         <MudCardContent>
 
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data de Pagamento" DisplayMonths="2"
-                           TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataPagamento" Required="true" PickerClosed="SelecaoPorPeriodo" />
-            <ValidationMessage For="() => pagamento.DataPagamento" RequiredError="Data de pagamento é obrigatório." />
-            
-                <MudSelect T="int" @bind-Value="pagamento.DespesaId" Label="Despesa" Placeholder="Selecione uma despesa" Immediate="true" Required="true">
-                <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
-                @foreach (var tipo in lstDespesa)
-                {
-                    <MudSelectItem T="int" Value="tipo.DespesaId">@tipo.Nome</MudSelectItem>
-                }
-            </MudSelect>
-            <ValidationMessage For="() => pagamento.DespesaId" RequiredError="A despesa é obrigatória." />
+            <MudField Label="Data de Pagamento" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                <MudDatePicker PickerVariant="PickerVariant.Dialog" DisplayMonths="2"
+                               TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataPagamento" Required="true" PickerClosed="SelecaoPorPeriodo" />
+                <ValidationMessage For="() => pagamento.DataPagamento" RequiredError="Data de pagamento é obrigatório." />
+            </MudField>
 
-            <MudNumericField @bind-Value="pagamento.ValorPagar" Label="Valor a pagar" Immediate="false" Format="N2" Culture="@_ptBr" Required="true" />
+            <MudField Label="Pagante" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                <MudSelect T="int" @bind-Value="pagamento.UsuarioId" Placeholder="Selecione um pagante" Immediate="true" Required="true">
+                    <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
+                    @foreach (var usuario in lstUsuariosPagantes)
+                    {
+                        <MudSelectItem T="int" Value="usuario.UsuarioId">@usuario.Nome</MudSelectItem>
+                    }
+                </MudSelect>
+                <ValidationMessage For="() => pagamento.UsuarioId" RequiredError="Pagante é obrigatório." />
+            </MudField>
+
+            <MudField Label="Despesa" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                <MudSelect T="int" @bind-Value="pagamento.DespesaId" Placeholder="Selecione uma despesa" Immediate="true" Required="true">
+                    <MudSelectItem T="int" Value="0" Variant="Variant.Outlined">Selecione Opção</MudSelectItem>
+                    @foreach (var despesa in lstDespesas)
+                    {
+                        <MudSelectItem T="int" Value="despesa.DespesaId">@despesa.Nome</MudSelectItem>
+                    }
+                </MudSelect>
+                <ValidationMessage For="() => pagamento.DespesaId" RequiredError="A despesa é obrigatória." />
+            </MudField>
+            
+            <MudNumericField @bind-Value="pagamento.ValorPagar" Label="Valor a pagar" Immediate="false" Format="N2" Culture="@_ptBr" Variant="Variant.Outlined" Required="true" />
             <ValidationMessage For="() => pagamento.ValorPagar" RequiredError="O Valor a pagar é obrigatório." />
 
-            <MudCheckBox @bind-Value="@isPagamentoRecorrente" Label="Pagamento Recorrente" />
+            <MudField Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                <MudCheckBox @bind-Value="@isPagamentoRecorrente" Label="Pagamento Recorrente" />
 
-            @if (isPagamentoRecorrente)
-            {
-                <MudNumericField @bind-Value="quantidadeRecorrencia" Label="Quantidades de Ocorrencia" Immediate="false"  Required="true" />
-            }
+                @if (isPagamentoRecorrente)
+                {
+                    <MudNumericField @bind-Value="quantidadeRecorrencia" Label="Quantidades de Ocorrencia" Immediate="false"  Required="true" />
+                }
+            </MudField>
 
-            <MudText>Débito Automático?</MudText>
-            <MudRadioGroup @bind-Value="pagamento.DebitoAutomatico">
-                <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
-                <MudRadio Value="false" Color="Color.Secondary" Dense="true">Não</MudRadio>
-            </MudRadioGroup>
+            <MudField label="Débito Automático?" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                <MudRadioGroup @bind-Value="pagamento.DebitoAutomatico">
+                    <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
+                    <MudRadio Value="false" Color="Color.Secondary" Dense="true">Não</MudRadio>
+                </MudRadioGroup>
+            </MudField>
 
         </MudCardContent>
         <MudCardActions>
@@ -55,7 +73,9 @@
 
     private Pagamento pagamento = new Pagamento();
 
-    private List<Despesa> lstDespesa = new List<Despesa>();
+    private List<Usuario> lstUsuariosPagantes = [];
+
+    private List<Despesa> lstDespesas = [];
 
     public CultureInfo _ptBr = CultureInfo.GetCultureInfo("pt-BR");
 
@@ -68,13 +88,21 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetDespesa();
+        await GetUsuariosPagantes();
+        pagamento.UsuarioId = 0;
+
+        await GetDespesas();
         pagamento.DespesaId = 0;
     }
 
-    private async Task GetDespesa()
+    private async Task GetDespesas()
     {
-        lstDespesa = await despesaRepositorio.GetDespesasAsync();
+        lstDespesas = await despesaRepositorio.GetDespesasAsync();
+    }
+
+    private async Task GetUsuariosPagantes()
+    {
+        lstUsuariosPagantes = await usuarioRepositorio.GetUsuariosAsync();
     }
 
 
@@ -87,7 +115,7 @@
 
         bool isValid = Validator.TryValidateObject(pagamento, contexto, resultados, true);
 
-        if (pagamento.DespesaId <= 0) 
+        if (pagamento.DespesaId <= 0 || pagamento.UsuarioId <= 0) 
         {
             isValid = false;
         }

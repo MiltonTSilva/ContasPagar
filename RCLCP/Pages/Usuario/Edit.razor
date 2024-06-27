@@ -1,0 +1,102 @@
+﻿@page "/usuarios/edit"
+
+<PageTitle>Atualizar Usuario</PageTitle>
+
+<h1>Atualizar Usuario</h1>
+
+<hr />
+@if (usuario is null)
+{
+    <p><em>Carregando...</em></p>
+}
+else
+{
+    <EditForm Model="usuario" OnValidSubmit="UpdateUsuario">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <MudCard>
+            <MudCardContent>
+                <MudTextField @bind-Value="usuario.Nome" Label="Nome" Immediate="true" Required="true" Variant="Variant.Outlined" />
+                <ValidationMessage For="() => usuario.Nome" RequiredError="O nome é obrigatório." />
+
+                <MudTextField @bind-Value="usuario.Email" Label="E-mail" Immediate="true" Required="true" Variant="Variant.Outlined" />
+                <ValidationMessage For="() => usuario.Email" RequiredError="O e-mail é obrigatório." />
+
+                <MudTextField @bind-Value="usuario.Celular" Label="Celular" Immediate="true" Required="true" Variant="Variant.Outlined"
+                              Mask="@(new PatternMask("00-0-0000-0000"))" />
+                <ValidationMessage For="() => usuario.Celular" RequiredError="O número do celular é obrigatório." />
+
+                <MudField Label="Ativo" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                    <MudRadioGroup @bind-Value="usuario.Ativo">
+                        <MudRadio Value="true" Color="Color.Primary" Dense="true">Sim</MudRadio>
+                        <MudRadio Value="false" Color="Color.Secondary" Dense="false">Não</MudRadio>
+                    </MudRadioGroup>
+                </MudField>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Salvar</MudButton>
+                <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexUsuario" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+}
+
+@code {
+
+  
+
+    [SupplyParameterFromQuery]
+    public int id { get; set; }
+
+    [SupplyParameterFromForm]
+    public Usuario? usuario { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+       
+        if (!await UsuarioExists(id))
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+
+    public async Task UpdateUsuario()
+    {
+
+        try
+        {
+            await usuarioRepositorio.UpdateUsuarioAsync(usuario);
+        }
+        catch (Exception)
+        {
+            if (await UsuarioExists(id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/usuarios");
+    }
+
+    private async Task<bool> UsuarioExists(int id)
+    {
+        usuario ??= await usuarioRepositorio.GetUsuarioAsync(id);
+
+        if (usuario is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+           
+        }
+        return true;
+    }
+
+    public void NavigateToIndexUsuario()
+    {
+        NavigationManager.NavigateTo("/usuarios");
+    }
+}

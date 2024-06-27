@@ -1,0 +1,68 @@
+﻿@page "/usuarios/create"
+
+<PageTitle>Novo Usuario</PageTitle>
+
+<h1>Novo Usuario</h1>
+
+<hr />
+
+<EditForm Model="usuario" OnValidSubmit="AddUsuario">
+    <DataAnnotationsValidator />
+     <ValidationSummary />  
+    <MudCard>
+        <MudCardContent>
+            <MudTextField @bind-Value="usuario.Nome" Label="Nome" Immediate="true" Required="true" Variant="Variant.Outlined" />
+            <ValidationMessage For="() => usuario.Nome" RequiredError="O nome é obrigatório." />
+
+            <MudTextField @bind-Value="usuario.Email" Label="E-mail" Immediate="true" Required="true" Variant="Variant.Outlined" />
+            <ValidationMessage For="() => usuario.Email" RequiredError="O e-mail é obrigatório." />
+
+            <MudTextField @bind-Value="usuario.Celular" Label="Celular" Immediate="true" Required="true" Variant="Variant.Outlined"
+                          Mask="@(new PatternMask("00-0-0000-0000"))" />
+            <ValidationMessage For="() => usuario.Celular" RequiredError="O número do celular é obrigatório." />
+
+            <MudField Label="Ativo" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                <MudRadioGroup @bind-Value="usuario.Ativo">
+                    <MudRadio Value="true" Color="Color.Primary" Dense="true">Sim</MudRadio>
+                    <MudRadio Value="false" Color="Color.Secondary" Dense="false">Não</MudRadio>
+                </MudRadioGroup>
+            </MudField>
+
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" >Salvar</MudButton>
+            <MudButton  ButtonType="ButtonType.Button" OnClick="NavigateToIndexUsuario" Variant="Variant.Outlined" Color="Color.Secondary" Class="ml-auto">Retornar</MudButton>
+        </MudCardActions>
+    </MudCard>
+</EditForm>
+
+@code {
+
+    private Usuario usuario = new Usuario();
+   
+    
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddUsuario()
+    {
+
+        var contexto = new ValidationContext(usuario, null, null);
+        var resultados = new List<ValidationResult>();
+
+        bool isValid = Validator.TryValidateObject(usuario, contexto, resultados, true);
+
+
+        if (isValid)
+        {
+            await usuarioRepositorio.AddUsuarioAsync(usuario);          
+        }
+
+        NavigationManager.NavigateTo("/usuarios");
+   
+    }
+
+    public void  NavigateToIndexUsuario()
+    {
+        NavigationManager.NavigateTo("/usuarios");
+    }
+
+}
