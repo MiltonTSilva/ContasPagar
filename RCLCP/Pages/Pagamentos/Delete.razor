@@ -5,7 +5,17 @@
 
 <h1>Excluir Pagamento</h1>
 
-<h3>Tem certeza que deseja excluir?</h3>
+@if(!isDisabled)
+{
+    <MudAlert Severity="Severity.Success">Tem certeza que deseja excluir?</MudAlert>
+
+    <MudAlert Severity="Severity.Error">Esse processo não pode ser desfeito.</MudAlert>
+}
+else
+{
+    <MudAlert Severity="Severity.Info">Esse pagamento não pode ser excluido, pois já foi pago.</MudAlert>
+}
+
 <div>
     
     <hr />
@@ -33,16 +43,43 @@
                     <MudDivider />
                 </MudCardContent>
                 <MudCardActions Class="pa-8 d-flex flex-wrap gap-4 justify-space-between" Outlined="true">
-                        <MudButton ButtonType="ButtonType.Button"  HRef="@($"/pagamentos/edit?id={Pagamento.PagamentoId}")" Variant="Variant.Filled" Color="Color.Primary" Style="width:110px">Editar</MudButton>            
-                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Style="width:110px">Excluir</MudButton>              
-                        <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexPagamento" Variant="Variant.Outlined" Color="Color.Secondary"  Style="width:110px">Retornar</MudButton>  
+                        <MudButton ButtonType="ButtonType.Button"  HRef="@($"/pagamentos/edit?id={Pagamento.PagamentoId}")" Variant="Variant.Filled" Color="Color.Primary" Style="width:110px">Editar</MudButton>
+                    <MudButton Disabled="isDisabled" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Secondary" Style="width:110px">Excluir</MudButton>
+                    <MudButton ButtonType="ButtonType.Button" OnClick="NavigateToIndexPagamento" Variant="Variant.Outlined" Color="Color.Secondary"  Style="width:110px">Retornar</MudButton>  
                 </MudCardActions>
             </MudCard>
         </EditForm>
             }
 </div>
 
+<MudDialog @bind-IsVisible="visible" Options="dialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Tem certeza que deseja excluir este pagamento?
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText><b>Data Pagamento: </b>@Pagamento!.DataPagamento?.ToString("dd/MM/yyyy")</MudText>
+        <MudDivider />
+        <MudText><b>Despesa: </b>@Pagamento!.Despesa!.Nome</MudText>
+        <MudDivider />
+        <MudText><b>Valor Pagar: </b>@Pagamento!.ValorPagar.ToString("N2")</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="DeletePagamentoConfirmado" Class="px-10">Sim</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="Submit" Class="px-10">Não</MudButton>
+    </DialogActions>
+</MudDialog>
+
 @code {
+
+    private bool visible = false;
+    private bool isDelete = false;
+    private bool isDisabled = false;
+
+    void Submit() => visible = false;
+
+    private DialogOptions dialogOptions = new() { FullWidth = true };
 
     Pagamento? Pagamento;
 
@@ -57,12 +94,25 @@
         {
             NavigationManager.NavigateTo("notfound");
         }
+
+        if (Pagamento!.ValorPago > 0)
+        {
+            isDisabled = true;
+        }
     }
 
-    public async Task DeletePagamento()
+    public void DeletePagamento()
     {
+        visible = true;
+    }
+
+    public async Task DeletePagamentoConfirmado()
+    {
+
         await pagamentoRepositorio.DeletePagamentoAsync(Pagamento);
+
         NavigationManager.NavigateTo("/pagamentos");
+
     }
 
     public void NavigateToIndexPagamento()
