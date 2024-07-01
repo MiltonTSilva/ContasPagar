@@ -23,6 +23,8 @@
                     <MudDivider />
                     <MudText><b>Valor Pago: </b>@Pagamento.ValorPago.ToString("N2")</MudText>
                     <MudDivider />
+                    <MudText><b>Tipo de Pagamento: </b>@Pagamento.TipoPagamento</MudText>
+                    <MudDivider />
                     <MudText><b>Débito Automático?: </b>@(@Pagamento.DebitoAutomatico == true ? "Sim" : "Não")</MudText>
                     <MudDivider />
                     <MudText><b>Conta já foi paga?: </b>@(@Pagamento.EstaPago == true ? "Sim" : "Não")</MudText>

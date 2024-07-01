@@ -49,12 +49,26 @@ else
 
                 <MudNumericField @bind-Value="pagamento.ValorPago" Label="Valor Pago" Immediate="false" Format="N2" Culture="@_ptBr" Variant="Variant.Outlined" />
 
-                <MudField label="Débito Automático?" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
-                    <MudRadioGroup @bind-Value="pagamento.DebitoAutomatico">
+                <MudField label="Tipo de Pagamento" Variant="Variant.Outlined" InnerPadding="true" DisableUnderLine="true">
+                    <MudSelect T="TipoPagamento" @bind-Value="pagamento.TipoPagamento" Placeholder="Selecione um Tipo de Pagamento" Immediate="true" Required="true">
+                        <MudSelectItem T="TipoPagamento" Value="0" Variant="Variant.Outlined">Selecione Opção</MudSelectItem>
+                        @foreach (TipoPagamento tipoPagamento in Enum.GetValues(typeof(TipoPagamento)))
+                        {
+                            <MudSelectItem T="TipoPagamento" Value="@tipoPagamento">@tipoPagamento.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <ValidationMessage For="() => pagamento.DespesaId" RequiredError="A despesa é obrigatória." />
+                </MudField>
+
+                @if (@pagamento.TipoPagamento == @TipoPagamento.Débito)
+                {
+                    <MudField label="Débito Automático?" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                        <MudRadioGroup @bind-Value="pagamento.DebitoAutomatico">
                         <MudRadio Value="true" Color="Color.Primary" Dense="false">Sim</MudRadio>
                         <MudRadio Value="false" Color="Color.Secondary" Dense="true">Não</MudRadio>
                     </MudRadioGroup>
                 </MudField>
+                }
 
                 <MudField Label="Conta paga?" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
                     <MudRadioGroup @bind-Value="pagamento.EstaPago">

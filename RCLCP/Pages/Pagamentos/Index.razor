@@ -67,7 +67,7 @@
         <MudTextField @bind-Value="_searchString" Placeholder="Procurar" Adornment="Adornment.Start" Immediate="true"
                         AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" ></MudTextField>
     </ToolBarContent>
-    
+
     <Columns>     
         <PropertyColumn Property="x => x.DataPagamento" Title="Data Pagamento" Format="dd/MM/yyyy" Sortable="true" />       
         <PropertyColumn Property="x => x.Despesa!.Nome" Title="Despesa" SortBy="@_sortBy"  Sortable="true" />

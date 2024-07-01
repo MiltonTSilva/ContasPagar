@@ -1,5 +1,6 @@
-﻿using SQLite;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using SQLite;
+using RCLCP.Enums;
 
 namespace RCLCP.Entitys
 {
@@ -21,6 +22,9 @@ namespace RCLCP.Entitys
         public decimal ValorPagar { get; set; }
 
         public decimal ValorPago { get; set; }
+
+        [Required(ErrorMessage = "Tipo de pagamento é obrigatório.")]
+        public TipoPagamento TipoPagamento { get; set; }
 
         public bool DebitoAutomatico { get; set; }
 
