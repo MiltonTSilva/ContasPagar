@@ -27,6 +27,8 @@ else
         <EditForm method="post" Model="Pagamento" OnValidSubmit="DeletePagamento" FormNome="delete" Enhance>
             <MudCard>
                 <MudCardContent>
+                    <MudText><b>Data Despesa: </b>@Pagamento.DataDespesa?.ToString("dd/MM/yyyy")</MudText>
+                    <MudDivider />
                     <MudText><b>Data Pagamento: </b>@Pagamento.DataPagamento?.ToString("dd/MM/yyyy")</MudText>
                     <MudDivider />
                     <MudText><b>Despesa: </b>@Pagamento.Despesa!.Nome</MudText>
@@ -74,7 +76,6 @@ else
 @code {
 
     private bool visible = false;
-    private bool isDelete = false;
     private bool isDisabled = false;
 
     void Submit() => visible = false;

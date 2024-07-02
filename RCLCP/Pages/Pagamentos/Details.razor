@@ -15,6 +15,8 @@
         <EditForm Model="Pagamento">
             <MudCard>
                 <MudCardContent>
+                    <MudText><b>Data Despesa: </b>@Pagamento.DataDespesa?.ToString("dd/MM/yyyy")</MudText>
+                    <MudDivider />
                     <MudText><b>Data Pagamento: </b>@Pagamento.DataPagamento?.ToString("dd/MM/yyyy")</MudText>
                     <MudDivider />
                     <MudText><b>Despesa: </b>@Pagamento.Despesa!.Nome</MudText>

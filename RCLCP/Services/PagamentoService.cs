@@ -88,7 +88,7 @@ namespace RCLCP.Services
                     pagamento.Despesa = await _dbConnection.FindAsync<Despesa>(pagamento.DespesaId);
                 }
             }
-            return retorno;
+            return [.. retorno.OrderBy(w => w.DataPagamento).ThenBy(w => w.TipoPagamento)];
         }
 
         public async Task<Pagamento> GetPagamentoComDespesaAsync(int id)

@@ -17,6 +17,9 @@ namespace RCLCP.Entitys
         [Required(ErrorMessage = "Data de pagamento é obrigatório.")]
         public DateTime? DataPagamento { get; set; }
 
+        [Required(ErrorMessage = "Data da despesa é obrigatório.")]
+        public DateTime? DataDespesa { get; set; }
+
         [Required(ErrorMessage = "Valor a pagar é obrigatório.")]
         [Range(1, int.MaxValue, ErrorMessage = "Por favor informe um valor válido")]
         public decimal ValorPagar { get; set; }

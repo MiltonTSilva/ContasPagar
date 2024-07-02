@@ -27,22 +27,65 @@
     </div>
 }
 
-<MudPaper Class=" pa-8 d-flex flex-wrap gap-4  align-center justify-center" Outlined="true">
+<MudPaper  Class=" pa-8 d-flex flex-wrap gap-4  align-center justify-center" Outlined="true">
     <MudPaper Class="pa-2" Elevation="4">
-        <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data Inicial"
-                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataInicial" PickerClosed="@SomaValorAPagar" Style="max-width: 200px;" />
+        <MudDatePicker Variant="Variant.Outlined" PickerVariant="PickerVariant.Dialog" Label="Data Inicial"
+                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataInicial" PickerClosed="SomaValorAPagar" Style="width: 200px;" />
     </MudPaper>
 
     <MudPaper Class="pa-2" Elevation="4">
-        <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Data Final"
-                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataFinal" PickerClosed="@SomaValorAPagar" Style="max-width: 200px;" />
+        <MudDatePicker Variant="Variant.Outlined" PickerVariant="PickerVariant.Dialog" Label="Data Final"
+                       TitleDateFormat="dddd, dd MMMM" @bind-Date="DataFinal" PickerClosed="SomaValorAPagar" Style="width: 200px;" />
+    </MudPaper>
+
+    <MudPaper Class="pa-2" Elevation="4">
+        <MudSelect Label="Despesa" T="int" @bind-Value="despesaId" Placeholder="Selecione uma despesa" Immediate="true" AnchorOrigin="Origin.CenterLeft"
+                   Variant="Variant.Outlined" @bind-Value:after="SomaValorAPagar" Style="width: 200px;">
+            <MudSelectItem T="int" Value="0" Variant="Variant.Outlined">Selecione</MudSelectItem>
+            @foreach (var despesa in lstDespesas)
+            {
+                <MudSelectItem T="int" Value="despesa.DespesaId">@despesa.Nome</MudSelectItem>
+            }
+        </MudSelect>
+     </MudPaper>
+
+    <MudPaper Class="pa-2" Elevation="4">
+        <MudSelect Label="Pagante" T="int" @bind-Value="usuarioPaganteId" Placeholder="Selecione um pagante" Immediate="true" AnchorOrigin="Origin.CenterLeft"
+                   Variant="Variant.Outlined" @bind-Value:after="SomaValorAPagar" Style="width: 200px;">
+            <MudSelectItem T="int" Value="0">Selecione</MudSelectItem>
+            @foreach (var usuario in lstUsuariosPagantes)
+            {
+                <MudSelectItem T="int" Value="usuario.UsuarioId">@usuario.Nome</MudSelectItem>
+            }
+        </MudSelect>
+    </MudPaper>
+
+     <MudPaper Class="pa-2" Elevation="4">
+        <MudSelect label="Tipo de Pagamento" T="TipoPagamento" @bind-Value="tipoPagamento" Placeholder="Selecione um Tipo de Pagamento"
+                   @bind-Value:after="SomaValorAPagar" Immediate="true" Variant="Variant.Outlined" Style="width: 200px;">
+
+            @foreach (TipoPagamento tipoPagamento in Enum.GetValues(typeof(TipoPagamento)))
+            {
+                <MudSelectItem T="TipoPagamento" Value="@tipoPagamento" >@Enum.GetName(@tipoPagamento)</MudSelectItem>
+            }
+        </MudSelect>
+    </MudPaper>
+    <MudPaper Class="pa-2" Elevation="8">
+            <MudCheckBox @bind-Value="@isContaPaga" @bind-Value:after="SomaValorAPagar" Color="Color.Secondary" Label="Conta já paga" Style="width: 200px;" />
     </MudPaper>
     <MudPaper Class="pa-2" Elevation="4">
-        <MudCheckBox @bind-Value="@isContaPaga" @bind-Value:after="SomaValorAPagar" Color="Color.Secondary" Label="Conta já paga" Style="max-width: 200px;" />
+        <MudButton ButtonType="ButtonType.Button" OnClick="LimparFiltros" Color="Color.Primary" Class="ml-auto" Variant="Variant.Outlined" InnerPadding="true" Style="width: 200px;">Limpar filtros</MudButton>
     </MudPaper>
 
 </MudPaper>
 
+@if(TotalValorPagar > 0)
+{
+    <MudPaper Class=" pa-8 mt-5 mb-5 d-flex flex-column flex-grow-1 gap-4 align-center justify-center indigo " Outlined="true" Square="true">
+        <MudText Typo="Typo.h4" Class="mud-secondary-text">Valor Total a Pagar </MudText>
+        <MudText Typo="Typo.h5" Class="mud-success-text">R$ @TotalValorPagar.ToString("N2")</MudText>
+    </MudPaper>
+}  
 
 <MudDataGrid
     T="Pagamento" @ref="@_grid" 
@@ -51,7 +94,7 @@
     MultiSelection="true" 
     ColumnResizeMode="ResizeMode.Column"
     SortMode="SortMode.Multiple" 
-    Filterable="true" 
+    Filterable="false" 
     QuickFilter="@_quickFilter" 
     Groupable="false"
     Hover="@_hover"
@@ -63,15 +106,17 @@
     RowContextMenuClick="RowRightClicked" 
     SelectedItemsChanged="@SelectedItemsChanged">
 
-    <ToolBarContent>
+@*     <ToolBarContent>
         <MudTextField @bind-Value="_searchString" Placeholder="Procurar" Adornment="Adornment.Start" Immediate="true"
                         AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" ></MudTextField>
-    </ToolBarContent>
+    </ToolBarContent> *@
 
-    <Columns>     
+    <Columns>
+        <PropertyColumn Property="x => x.DataDespesa" Title="Data Despesa" Format="dd/MM/yyyy" Sortable="true" />
         <PropertyColumn Property="x => x.DataPagamento" Title="Data Pagamento" Format="dd/MM/yyyy" Sortable="true" />       
         <PropertyColumn Property="x => x.Despesa!.Nome" Title="Despesa" SortBy="@_sortBy"  Sortable="true" />
-        <PropertyColumn Property="x => x.ValorPagar" Title="Valor a Pagar" Sortable="true" Format="N2"/>
+        <PropertyColumn Property="x => x.ValorPagar" Title="Valor a Pagar" Sortable="true" Format="N2" Style="text-align:right" />
+        <PropertyColumn Property="x => x.TipoPagamento" Title="Tipo Pagamento" SortBy="@_sortBy" Sortable="true" />
         <PropertyColumn Property="x => x.Usuario!.Nome" Title="Pagante" SortBy="@_sortBy" Sortable="true" />
         <PropertyColumn Property='x => (x.EstaPago == true ? "Sim"  : "Não")' Title="Pago?" Sortable="true" />
 
@@ -88,6 +133,8 @@
                 </MudTooltip>
             </CellTemplate>
         </TemplateColumn>
+
+
     </Columns>
 
     <PagerContent>
@@ -95,13 +142,15 @@
             Count="@((_grid!.GetFilteredItemsCount() + _grid.RowsPerPage - 1) / _grid.RowsPerPage)" Class="pa-4" />
     </PagerContent>
 
+
+
 </MudDataGrid>
 
-@if(TotalValorPagar > 0)
+@if (TotalValorPagar > 0)
 {
-    <MudPaper Class=" pa-4 ma-2 d-flex flex-column flex-grow-1 gap-4 align-center justify-center" Outlined="true" Square="true">
-        <MudText Typo="Typo.h5" Color="Color.Info">Valor Total a Pagar </MudText>
-        <MudText Typo="Typo.h6" Color="Color.Success">R$ @TotalValorPagar.ToString("N2")</MudText>
+    <MudPaper Class=" pa-8 mt-5 mb-5 d-flex flex-column flex-grow-1 gap-4 align-center justify-center indigo " Outlined="true" Square="true">
+        <MudText Typo="Typo.h4" Class="mud-secondary-text">Valor Total a Pagar </MudText>
+        <MudText Typo="Typo.h5" Class="mud-success-text">R$ @TotalValorPagar.ToString("N2")</MudText>
     </MudPaper>
 }
 
@@ -121,13 +170,19 @@
     private bool isContaPaga = false;
 
     IEnumerable<Pagamento>? Elements ;
-    private string? _searchString;
+    private string? _searchString = string.Empty;
     private bool _sortNameByLength = false;
     private List<string> _events = [];
 
     private decimal TotalValorPagar = 0;
-    DateTime? DataInicial = new DateTime(DateTime.Today.Year, DateTime.Today.Month,1);
-    DateTime? DataFinal = DateTime.Today.AddDays(DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month) - DateTime.Today.Day);
+    private DateTime? DataInicial = new DateTime(DateTime.Today.Year, DateTime.Today.Month,1);
+    private DateTime? DataFinal = DateTime.Today.AddDays(DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month) - DateTime.Today.Day);
+    private int usuarioPaganteId = 0;
+    private int despesaId = 0;
+    private TipoPagamento tipoPagamento;
+
+    private List<Usuario> lstUsuariosPagantes = [];
+    private List<Despesa> lstDespesas = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -136,6 +191,12 @@
             await Task.Delay(300);
 
             platformService = PlatformService.GetPlatform();
+
+            await GetUsuariosPagantes();
+            usuarioPaganteId = 0;
+
+            await GetDespesas();
+            despesaId = 0;
 
             var list = await pagamentoRepositorio.GetPagamentosComDespesaAsync();
             Elements = list.AsEnumerable().Where(w => w.EstaPago == isContaPaga);
@@ -164,6 +225,15 @@
         NavigationManager.NavigateTo($"/pagamentos/details?id={id}");
     }
 
+    private async Task GetUsuariosPagantes()
+    {
+        lstUsuariosPagantes = await usuarioRepositorio.GetUsuariosAsync();
+    }
+
+    private async Task GetDespesas()
+    {
+        lstDespesas = await despesaRepositorio.GetDespesasAsync();
+    }
 
     private void PageChanged(int i)
     {
@@ -185,10 +255,28 @@
 
     private void SomaValorAPagar()
     {
-        Elements = Elements!.Where(w => w.DataPagamento >= DataInicial && w.DataPagamento <= DataFinal && w.EstaPago == isContaPaga);
+        Elements = Elements!.Where(w => 
+            w.DataPagamento >= DataInicial &&
+            w.DataPagamento <= DataFinal &&
+            w.EstaPago == isContaPaga && 
+            (usuarioPaganteId == 0 || w.UsuarioPaganteId == usuarioPaganteId) &&
+            (tipoPagamento == 0 || w.TipoPagamento == tipoPagamento) &&
+            (despesaId == 0 || w.DespesaId == despesaId)
+        );
+
         TotalValorPagar = Elements.Sum(item => item.ValorPagar);
     }
- 
+
+    private void LimparFiltros()
+    {
+        DataInicial = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+        DataFinal = DateTime.Today.AddDays(DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month) - DateTime.Today.Day);
+        usuarioPaganteId = 0;
+        despesaId = 0;
+        tipoPagamento = TipoPagamento.Selecione;
+        isContaPaga = false;
+    }
+
 
     //custom sort by name length
     private Func<Pagamento, object> _sortBy => x =>
@@ -211,6 +299,13 @@
            if (x.Despesa!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
            {
                Elements = Elements!.Where(w => w.Despesa!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase) && w.EstaPago == isContaPaga);
+               TotalValorPagar = Elements.Sum(item => item.ValorPagar);
+              return true;
+           }
+
+           if (x.Usuario!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+           {
+               Elements = Elements!.Where(w => w.Usuario!.Nome.Contains(_searchString, StringComparison.OrdinalIgnoreCase) && w.EstaPago == isContaPaga);
                TotalValorPagar = Elements.Sum(item => item.ValorPagar);
                return true;
            }

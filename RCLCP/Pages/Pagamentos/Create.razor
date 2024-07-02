@@ -12,6 +12,12 @@
     <MudCard>
         <MudCardContent>
 
+            <MudField Label="Data da despesa" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
+                <MudDatePicker PickerVariant="PickerVariant.Dialog" DisplayMonths="2"
+                               TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataDespesa" Required="true" PickerClosed="SelecaoPorPeriodo" />
+                <ValidationMessage For="() => pagamento.DataDespesa" RequiredError="Data da despesa é obrigatório." />
+            </MudField>
+
             <MudField Label="Data de Pagamento" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
                 <MudDatePicker PickerVariant="PickerVariant.Dialog" DisplayMonths="2"
                                TitleDateFormat="dddd, dd MMMM" @bind-Date="pagamento.DataPagamento" Required="true" PickerClosed="SelecaoPorPeriodo" />
@@ -20,7 +26,7 @@
 
             <MudField Label="Pagante" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
                 <MudSelect T="int" @bind-Value="pagamento.UsuarioPaganteId" Placeholder="Selecione um pagante" Immediate="true" Required="true">
-                    <MudSelectItem T="int" Value="0">Selecione Opção</MudSelectItem>
+                    <MudSelectItem T="int" Value="0">Selecione</MudSelectItem>
                     @foreach (var usuario in lstUsuariosPagantes)
                     {
                         <MudSelectItem T="int" Value="usuario.UsuarioId">@usuario.Nome</MudSelectItem>
@@ -31,7 +37,7 @@
 
             <MudField Label="Despesa" Variant="Variant.Outlined" InnerPadding="false" DisableUnderLine="true">
                 <MudSelect T="int" @bind-Value="pagamento.DespesaId" Placeholder="Selecione uma despesa" Immediate="true" Required="true">
-                    <MudSelectItem T="int" Value="0" Variant="Variant.Outlined">Selecione Opção</MudSelectItem>
+                    <MudSelectItem T="int" Value="0" Variant="Variant.Outlined">Selecione</MudSelectItem>
                     @foreach (var despesa in lstDespesas)
                     {
                         <MudSelectItem T="int" Value="despesa.DespesaId">@despesa.Nome</MudSelectItem>
@@ -59,7 +65,6 @@
 
             <MudField label="Tipo de Pagamento" Variant="Variant.Outlined" InnerPadding="true" DisableUnderLine="true">
                 <MudSelect T="TipoPagamento" @bind-Value="pagamento.TipoPagamento" Placeholder="Selecione um Tipo de Pagamento" Immediate="true" Required="true">
-                    <MudSelectItem T="TipoPagamento" Value="0" Variant="Variant.Outlined">Selecione Opção</MudSelectItem>
                     @foreach (TipoPagamento tipoPagamento in Enum.GetValues(typeof(TipoPagamento)))
                     {
                         <MudSelectItem T="TipoPagamento" Value="@tipoPagamento">@Enum.GetName(@tipoPagamento)</MudSelectItem>
